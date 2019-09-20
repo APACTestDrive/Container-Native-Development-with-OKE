@@ -7,9 +7,9 @@ build:
     - internal/docker-build:
         build-args: ""
         dockerfile: Dockerfile
-        image-name: cafesupremo
+        image-name: rewardservice
     - internal/docker-push:
-        image-name: cafesupremo
+        image-name: rewardservice
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
         repository: $DOCKER_REPO
