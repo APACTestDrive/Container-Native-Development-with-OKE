@@ -1,6 +1,6 @@
 module.exports= {
-dbuser: '', 
-dbpassword: '', 
-connectString: '' ,
-walletpwd: ''
+dbuser: 'admin', 
+dbpassword: 'foReVER@4Stupid', 
+connectString: 'mcdemodb_tp' ,
+walletpwd: 'welcome1'
 }

@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cafesupremo
+  name: rewardservice
   labels:
-    app: cafesupremo
+    app: rewardservice
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
+  - port: 8080
   selector:
-    app: cafesupremo
+    app: rewardservice
