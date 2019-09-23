@@ -13,7 +13,7 @@ build:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
         repository: $DOCKER_REPO
-        registry: https://$DOCKER_REGISTRY/v2
+        registry: $DOCKER_REGISTRY
         tag: latest, $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
         ports: 8080
         env: LD_LIBRARY_PATH=/opt/oracle/instantclient_19_3 TNS_ADMIN=/reward/Wallet_ATPDemoDB WALLET_LOCATION=/reward/Wallet_ATPDemoDB
