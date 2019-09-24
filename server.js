@@ -20,10 +20,16 @@ oracledb.autoCommit = true;
 // dbpass = dbpass.replace("\n","");
 // reading database connection prop from config file
 //   should re-visit, and use only environment variables
+// since there is no environments, we simply change the connection properties to dbConfig values
+// var connectionProperties = {
+//  user: process.env.DB_ADMIN_USER || dbConfig.dbuser,
+//  password: dbpass || dbConfig.dbpassword,
+//  connectString: process.env.DB_DESCRIPTOR || dbConfig.connectString
+// };
 var connectionProperties = {
-  user: process.env.DB_ADMIN_USER || dbConfig.dbuser,
-  password: dbpass || dbConfig.dbpassword,
-  connectString: process.env.DB_DESCRIPTOR || dbConfig.connectString
+  user: dbConfig.dbuser,
+  password: dbConfig.dbpassword,
+  connectString: dbConfig.connectString
 };
 
 // additional requires
