@@ -14,8 +14,10 @@ var dbConfig = require('./dbconfig.js');
 var oracledb = require('oracledb');
 // enable aauto commit
 oracledb.autoCommit = true;
-var dbpass = process.env.DB_ADMIN_PWD;
-dbpass = dbpass.replace("\n","");
+// edit by kenneth - since there is no environment variable, we will use config file
+// comment the next 2 lines
+// var dbpass = process.env.DB_ADMIN_PWD;
+// dbpass = dbpass.replace("\n","");
 // reading database connection prop from config file
 //   should re-visit, and use only environment variables
 var connectionProperties = {
