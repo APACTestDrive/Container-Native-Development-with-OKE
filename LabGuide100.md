@@ -184,3 +184,5 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
     You should see something similar to below with the key's fingerprint under the API Keys.
 
     ![](images/100/72.png)
+
+**You are now ready to move to the next lab: [Lab 200](LabGuide200.md)**
