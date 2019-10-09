@@ -16,12 +16,13 @@ Welcome to the Oracle Public Cloud Container Native Development with OKE worksho
 
   - Soon after requesting your trial you will receive the following email. _You may begin working on Lab 100 before you receive this email_, but you will not be able to start Lab 200 until you have received it.
 
-  ![](images/oraclecode/code_9.png)
 
 ### **Step 2**: Navigate to Lab 100
 
 - You may proceed to [Lab 100](LabGuide100.md)
 
-- _You can see a list of Lab Guides_ by clicking on the **Menu Icon** in the upper left corner of the browser window. You're now ready to continue with **Lab 100**.
+- _Below is a list of Lab Guides_
 
-  ![](images/LabMenuIcon.png)
+  - [Lab 100](LabGuide100.md) - Provision Kubernetes Using the OCI Console
+  - [Lab 200](LabGuide200.md) - Downloading a kubeconfig File to Enable Cluster Access
+  - [Lab 300](LabGuide300.md) - Containerize Your Node.js Microservice
