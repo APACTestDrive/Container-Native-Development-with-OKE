@@ -12,21 +12,21 @@ When you create a cluster, Container Engine creates a Kubernetes configuration f
 
 You must download the `kubeconfig` file and set an environment variable to point to it. Having completed the steps, you can start using **kubectl** and the Kubernetes Dashboard to manage the cluster.
 
-Due to the possible differences that may arise from the installation of OCI_CLI tool in Windows or Linux environments, we will provide a workaround for this lab. Instead of installing the OCI-CLI in your environment, you will run a predefined script defined as a **Wercker** application with your OCI and OKE details to automate the download of `kubeconfig` file.
+Due to the possible differences that may arise from the installation of OCI-CLI tool in Windows or Linux environments, we will provide a workaround for this lab. Instead of installing the OCI-CLI in your environment, you will run a script defined as a **Wercker** application with your OCI and OKE details passed as environment variables to automate the download of `kubeconfig` file.
 
 
 ## Objectives
 
-**Configure Wercker and Automate the Execution of The kubconfig Tool**
+**Configure Wercker and Automate the Execution of The oke-kubconfig  Download Tool**
 
 - Create Wercker Application
-  - Fork okeight Application on GitHub
+  - Fork the **oke-kubeconfig** download tool from GitHub
   - Create a Wercker account
-  - Create Wercker application
+  - Create a Wercker application
 - Create and Run Wercker Pipelines
   - Define Wercker Build Pipeline
   - Set Environment Variables in Wercker
-  - Copy content of `kubeconfig` file
+  - Copy content of output to `kubeconfig` file
 
 ## Required Artifacts
 
@@ -37,13 +37,13 @@ For this lab you will need a Github account. Use the following link to set one u
 
 ## Create Wercker Application
 
-The workaround tool for downloading the `kubeconfig` file is available as a Github project. This contains the script and predefined pipelines for execution in Wercker. We will create a Wercker application to download the `kubeconfig` file. This will introduce you to Wercker and get you familiarise with it for the later labs.
+The tool for downloading the `kubeconfig` file is available as a Github project. This contains the script and predefined pipelines for execution in Wercker. We will create a Wercker application to download the `kubeconfig` file. This will introduce you to Wercker and get you familiarise with it for the later labs.
 
-### **STEP 1**: Fork okeight Application on GitHub
+### **STEP 1**: Fork oke-kubeconfig Application on GitHub
 
 - From any browser, go to:
 
-  [https://github.com/kwanwan/okeight](https://github.com/kwanwan/okeight)
+  [https://github.com/kwanwan/okeight](https://github.com/kwanwan/oke-kubeconfig)
 
 - Click **Fork** in the upper right hand corner of the browser. **Sign in** if prompted.
 
@@ -85,7 +85,7 @@ The workaround tool for downloading the `kubeconfig` file is available as a Gith
 
   ![](images/200/7.png)
 
-- Click on the **okeight** repository that appears in the list of your GitHub repositories, then click **Next**
+- Click on the **oke-kubeconfig** repository that appears in the list of your GitHub repositories, then click **Next**
 
   ![](images/200/LabGuide100-65267c06.png)
 
@@ -111,7 +111,7 @@ The workaround tool for downloading the `kubeconfig` file is available as a Gith
 
   ![](images/200/17.png)
 
-- The **build** pipeline will be used to build a Docker image that contains a shell script `get-kubeconfig.sh`. This will be executed with a set of environment variables passed to it. You can find the `get-kubeconfig.sh` in the okeight repository.
+- The **build** pipeline will be used to build a Docker image that contains a shell script `get-kubeconfig.sh`. This will be executed with a set of environment variables passed to it. You can find the `get-kubeconfig.sh` in the Github **oke-kubeconfig** repository.
 
 - Now that we've got a workflow configured that will build and store a Docker image containing our `get-kubeconfig.sh`, we need to define what parameters are required to pass to it via Wercker environment variables.
 
@@ -129,7 +129,7 @@ The workaround tool for downloading the `kubeconfig` file is available as a Gith
   Key:                  Value:
   OCIUSEROCID           your OCI user ID
   OCIAPIKEYFP           your API key fingerprint
-  OCIAPIKEY_PRIVATE     your API private key
+  OCIAPIKEY_PRIVATE     your API private key created in Lab 100
   OCITENANTOCID         your OCI tenancy ID
   OCIOKEOCID            your OKE cluster ID
   OCIREGION             us-ashburn-1 or us-phoenix-1 for your tenancy
@@ -162,7 +162,9 @@ The workaround tool for downloading the `kubeconfig` file is available as a Gith
 
   ![](images/200/44.png)
 
-- In order to interact with your cluster and view the dashboard, you will need to install the Kubernetes command line interface, `kubectl`. We will do that next.
+- It is recommended to create a working directory such as `container-workshop` under your home directory. e.g. `~/container-workshop` for Mac or Linux.
+
+- In order to interact with your cluster and view the dashboard, you will need to install the Kubernetes command line interface, `kubectl`, which we will do that next.
 
 
 ### **STEP 6**: Install and Test kubectl on Your Local Machine

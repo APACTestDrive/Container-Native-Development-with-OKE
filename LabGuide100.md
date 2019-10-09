@@ -14,7 +14,7 @@ During this lab, you will take on the **DevOps Engineer Persona**. You will prov
 
 ## Objectives
 
-**Automate Deployment to Kubernetes**
+**Provision Oracle Container Engine for Kubernetes (OKE)**
 
 - Create and Deploy to a Kubernetes Cluster
   - Set Up Oracle Cloud infrastructure
@@ -26,7 +26,7 @@ During this lab, you will take on the **DevOps Engineer Persona**. You will prov
 ## Required Artifacts
 
 - The following lab requires:
-  - an Oracle Cloud Trial Account
+  - An Oracle Cloud Trial Account
 
 # Provision Kubernetes Using the OCI Console
 
@@ -131,10 +131,11 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
     - Multiple versions of Kubernetes are available, with the newest version selected by default
     - The default cluster creation mode will automatically create a Virtual Cloud Network for our cluster, including 2 load balancer subnets and 3 subnets for our worker VMs
     - We can customize the size and quantity of worker VMs in the node pool; by default we will get 3x 1 OCPU VMs, one in each Availability Domain.
+    - Select **VM.Standard2.1** for the VM Shape from the **SHAPE** dropdown list if this is not the default.
     - We can also add more node pools to the cluster after creation.
     - The dashboard and Tiller will be installed by default.
 
-  - Click **Create**. You will be brought to the cluster detail page. Your cluster will take a while to provision, so let's use this time to create a cloud VM that we can use to manage our cluster using the command line.
+  - Click **Create**. You will be brought to the cluster detail page. Your cluster will take a while to provision, so let's use this time to generate an API signing key pair to manage our cluster using the command line.
 
 
 
@@ -184,5 +185,15 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
     You should see something similar to below with the key's fingerprint under the API Keys.
 
     ![](images/100/72.png)
+
+
+### **STEP 7**: Verify Your Clusters
+
+You should verify your cluster has been created successfully before moving on to Lab 200.
+
+  - Click on your cluster name
+
+  - Verify all the computer nodes in your node pool is in the active state.
+
 
 **You are now ready to move to the next lab: [Lab 200](LabGuide200.md)**
