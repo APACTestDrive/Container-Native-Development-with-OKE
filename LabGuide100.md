@@ -16,12 +16,10 @@ During this lab, you will take on the **DevOps Engineer Persona**. You will prov
 
 **Provision Oracle Container Engine for Kubernetes (OKE)**
 
-- Create and Deploy to a Kubernetes Cluster
+- Create a Kubernetes Cluster
   - Set Up Oracle Cloud infrastructure
   - Provision Kubernetes Using the OCI Console
-  - Provision Oracle Autonomous Transaction Processing Database
-  - Configure and Run Wercker Deployment Pipelines
-  - Deploy and Test the Product Catalog Application
+  - Create and upload API key for cluster management
 
 ## Required Artifacts
 

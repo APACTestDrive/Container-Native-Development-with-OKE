@@ -1,30 +1,32 @@
-# Containerize Your Node.js Microservice
+# Downloading a kubeconfig File to Enable Cluster Access
 
 ![](images/300/header.png)
 
 ## Introduction
 
-This is the second of several labs that are part of the **Oracle Public Cloud Container Native Development workshop**. This workshop will walk you through the process of moving an existing application into a containerized CI/CD pipeline and deploying it to a Kubernetes cluster in the Oracle Public Cloud.
+This is the third of several labs that are part of the **Oracle Public Cloud Container Native Development workshop**. This workshop will walk you through the process of moving an existing application into a containerized CI/CD pipeline and deploying it to a Kubernetes cluster in the Oracle Public Cloud.
 
 You will take on 2 personas during the workshop. The **Lead Developer Persona** will be responsible for configuring the parts of the automated build and deploy process that involve details about the application itself. The **DevOps Engineer Persona** will configure the parts of the automation involving the Kubernetes infrastructure. To containerize and automate the building and deploying of this application you will make use of Wercker Pipelines for CI/CD, Docker Hub for a Docker container registry, and Oracle Container Engine for Kubernetes (OKE) to provision a Kubernetes cluster on Oracle Cloud Infrastructure.
 
-During this lab, you will take on the **Lead Developer Persona** and work on containerizing your existing Java application. You will set up Wercker to monitor your application's source code repository for commits and automatically trigger a build, and package pipeline, which will result in a Docker image of your application that is ready to be deployed.
+When you create a cluster, Container Engine creates a Kubernetes configuration file for the cluster called `kubeconfig`. The `kubeconfig` file provides the necessary details to access the cluster using **kubectl** and the Kubernetes Dashboard.
+
+You must download the `kubeconfig` file and set an environment variable to point to it. Having completed the steps, you can start using **kubectl** and the Kubernetes Dashboard to manage the cluster.
+
+Due to the possible differences that may arise from the installation of OCI-CLI tool in Windows or Linux environments, we will provide a workaround for this lab. Instead of installing the OCI-CLI in your environment, you will run a script defined as a **Wercker** application with your OCI and OKE details passed as environment variables to automate the download of `kubeconfig` file.
 
 
 ## Objectives
 
-**Containerize Your Node.js Application and Automate Building and Packaging**
+**Configure Wercker and Automate the Execution of The oke-kubconfig  Download Tool**
 
 - Create Wercker Application
-  - Fork Node.js Application on GitHub
+  - Fork the **oke-kubeconfig** download tool from GitHub
   - Create a Wercker account
-  - Create Wercker application
+  - Create a Wercker application
 - Create and Run Wercker Pipelines
-  - Configure Pipelines and Workflow in Wercker
   - Define Wercker Build Pipeline
   - Set Environment Variables in Wercker
-  - Define Wercker Publish Pipeline
-  - Validate Workflow Execution
+  - Copy content of output to `kubeconfig` file
 
 ## Required Artifacts
 
@@ -32,15 +34,16 @@ For this lab you will need a Github account. Use the following link to set one u
 
   - a [GitHub account](https://github.com/join)
 
-# Containerize Your Node.js Application and Automate Builds
 
 ## Create Wercker Application
 
-### **STEP 1**: Fork Node.js Application on GitHub
+The tool for downloading the `kubeconfig` file is available as a Github project. This contains the script and predefined pipelines for execution in Wercker. We will create a Wercker application to download the `kubeconfig` file. This will introduce you to Wercker and get you familiarise with it for the later labs.
+
+### **STEP 1**: Fork oke-kubeconfig Application on GitHub
 
 - From any browser, go to:
 
-    [https://github.com/mcosbdemo/cndoke](https://github.com/mcosbdemo/cndoke)
+  [https://github.com/kwanwan/okeight](https://github.com/kwanwan/oke-kubeconfig)
 
 - Click **Fork** in the upper right hand corner of the browser. **Sign in** if prompted.
 
@@ -82,7 +85,7 @@ For this lab you will need a Github account. Use the following link to set one u
 
   ![](images/300/7.png)
 
-- Click on the **cndoke** repository that appears in the list of your GitHub repositories, then click **Next**
+- Click on the **oke-kubeconfig** repository that appears in the list of your GitHub repositories, then click **Next**
 
   ![](images/300/LabGuide100-65267c06.png)
 
@@ -94,7 +97,7 @@ For this lab you will need a Github account. Use the following link to set one u
 
   ![](images/300/LabGuide100-1066e6c2.png)
 
-- Do not generate a wercker.yml file -- we will create one in a later step.
+
 
 ## Create and Run Wercker Build Pipeline
 
@@ -108,27 +111,9 @@ For this lab you will need a Github account. Use the following link to set one u
 
   ![](images/300/17.png)
 
-- The **build** pipeline will be used to build and unit test our application. Let's create a new pipeline to store the resulting Docker image in a Docker Hub repository. Click the **Add new pipeline** button.
+- The **build** pipeline will be used to build a Docker image that contains a shell script `get-kubeconfig.sh`. This will be executed with a set of environment variables passed to it. You can find the `get-kubeconfig.sh` in the Github **oke-kubeconfig** repository.
 
-  ![](images/300/18.png)
-
-- Fill in `deploy` for the name of the pipeline and the YML name of the pipeline and click **Create**.
-
-  ![](images/300/19.png)
-
-- You will be presented with the pipeline's environment variable screen. We do not need to add any pipeline-specific environment variables, so just click on the **Workflows** tab to return to the workflow editor.
-
-  ![](images/300/LabGuide100-6f799cee.png)
-
-- Click the **plus sign** next to the build pipeline in the editor.
-
-  ![](images/300/20.png)
-
-- In the **Execute Pipeline** drop down list, choose the pipeline we just created, **push-release**. Leave the other fields at their default values and click **Add**.
-
-  ![](images/300/21.png)
-
-- Now that we've got a workflow configured that will build and store a Docker image containing our application, we need to define exactly how to do that in a file called **wercker.yml**, which we will store in our application's Git repository.
+- Now that we've got a workflow configured that will build and store a Docker image containing our `get-kubeconfig.sh`, we need to define what parameters are required to pass to it via Wercker environment variables.
 
 
 
@@ -141,120 +126,48 @@ For this lab you will need a Github account. Use the following link to set one u
 - Create an environment variable by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
   ```
-  Key:              Value:
-  DOCKER_USERNAME   <your-dockerhub-username>
-  DOCKER_REGISTRY   https://registry.hub.docker.com/v2
-  DOCKER_REPO       <your-dockerhub-username>/cndoke
+  Key:                  Value:
+  OCIUSEROCID           your OCI user ID
+  OCIAPIKEYFP           your API key fingerprint
+  OCIAPIKEY_PRIVATE     your API private key created in Lab 100
+  OCITENANTOCID         your OCI tenancy ID
+  OCIOKEOCID            your OKE cluster ID
+  OCIREGION             us-ashburn-1 or us-phoenix-1 for your tenancy
+  OCIENDPOINT           containerengine.us-ashburn-1.oraclecloud.com  or  containerengine.us-phoenix-1.oraclecloud.com
   ```
 
-  ![](images/LabGuide100-ff28ad1b.png)
+- You should end up with something similar to below.
+
+  ![](images/300/41.png)
 
   **NOTES**:
 
-  - Replace `<your-dockerhub-username>` in the variable values with your username for your Docker Hub account.
-
-  - The `DOCKER_REGISTRY` value above assumes you are using Docker Hub.
-
-- This is all of the environment variables that we can fill in at this point. For now, let's finish setting up the `build` pipeline in Wercker so that we can try the build.
+  - You can collect the values for the above keys in the OCI Console.
 
 
 
+- Switch back to your Runs tab by clicking on the **Runs** tab.
 
-### **STEP 6**: Define Wercker Build Pipeline
+- Click on **trigger a build now** at the bottom of the page to execute the **build** pipeline
 
-- Switch back to your GitHub browser tab, showing your forked copy of the **cndoke** repository, and click **Create new file**
+  ![](images/300/42.png)
 
-  ![](images/300/13.png)
+- Click on the green **build** pipeline to drill into the details of each step. Note that you can click on each step to see the console output produced by that step. In our case we are interested the **docker build** step.
 
-- In the **Name your file...** input field, type `wercker.yml`
+- Wait for the **docker build** step to complete and if successful you should see the content of your `kubeconfig` printed towards the bottom of the output in between the lines `=======PLEASE COPY AN PASTE BELOW` and `=======PLEASE COPY AN PASTE ABOVE` as shown below.
 
-  ![](images/300/14.png)
+  ![](images/300/43.png)
 
-- In the **Edit new file** input box, **paste** the following:
+- Our next step is to copy and paste the `kubeconfig` content into a blank `kubeconfig` file on your local machine. Save the `kubeconfig` file as a plain text file, not as a .docx, .rtf, .html, etc.
 
-    ```yaml
-    box:
-      id: alpine:3.2
+  ![](images/300/44.png)
 
-    build:
-      box: oraclelinux:7-slim
-      steps:
-        - script:
-            name: create keyfile
-            code: |
-              echo $OCIAPIKEY_PRIVATE > temp.pem
-        - internal/docker-build:
-            build-args: "OCIUSEROCID=$OCIUSEROCID OCIAPIKEYFP=$OCIAPIKEYFP OKEY=$OCIAPIKEY_PRIVATE OCITENANTOCID=$OCITENANTOCID OCIOKEOCID=$OCIOKEOCID OCIENDPOINT=$OCIENDPOINT OCIREGION=$OCIREGION DB_ADMIN_USER=$DB_ADMIN_USER DBPASSWORD=$DBPASSWORD DB_DESCRIPTOR=$DB_DESCRIPTOR ATPOCID=$ATPOCID"
-            dockerfile: Dockerfile
-            image-name: cndoke
-        - internal/docker-push:
-            image-name: cndoke
-            username: $DOCKER_USERNAME
-            password: $DOCKER_PASSWORD
-            repository: $DOCKER_REPO
-            registry: $DOCKER_REGISTRY
-            tag: latest, $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
-            ports: 80
-            env: LD_LIBRARY_PATH=/opt/oracle/instantclient_19_3 TNS_ADMIN=/reward/wallet WALLET_LOCATION=/reward/wallet
-            cmd: node server.js
-    ```
+- It is recommended to create a working directory such as `container-workshop` under your home directory. e.g. `~/container-workshop` for Mac or Linux.
 
-- You should have **24 lines** of YAML in the editor:
-
-  ![](images/300/LabGuide100-f5af715a.png)
-
-- Let's look at the two sections of YAML that we've just added.
-
-  - The first section describes a **box**. A **box** is the image that you want Wercker to pull from a Docker registry (the default is Docker Hub) to build your pipeline from. In our case, we need a Alpine environment to run our application, so we will pull the **alpine** image from Docker Hub.
-
-  - The second section defines our first pipeline, the **build** pipeline. Our **build** pipeline consists of three **steps**,
-
-    - First step to execute a shell command to write the OCI API private key from a Wercker environment variable into a PERM file (**script**) and
-    - Second step is to invoke the build (**internal/docker-build**) step.
-    - Third step of our pipeline, the **internal/docker-push** step, will store our container image in a Docker Hub repository after a successful build.
-
-      The **internal/docker-push** is a command developed by Wercker, which will take the current pipeline image and push it to a Docker registry. You can, however, use a different repository -- the step supports a `repository` parameter. You can find more info in the [documentation](http://devcenter.wercker.com/docs/steps/internal-steps#docker-push).
-
-      We have made use of several environment variables. We are tagging the release with the Git branch name and the Git commit hash so that we can trace our running application version back to a specific Git commit. These two variables (along with [others](http://devcenter.wercker.com/docs/environment-variables/available-env-vars#hs_cos_wrapper_name)) are automatically made available by Wercker. The `$DOCKER_USERNAME`, `$DOCKER_REGISTRY`, and `$DOCKER_REPO` environment variables, on the other hand, reference the ones that we defined ourselves in the previous step.
+- In order to interact with your cluster and view the dashboard, you will need to install the Kubernetes command line interface, `kubectl`, which we will do that next.
 
 
-- At the bottom of the page, click the **Commit new file** button.
-
-  ![](images/300/23.png)
-
-- Switch back to your **Wercker** browser tab and click on the **Runs** tab. If you are quick enough, you will see that Wercker has been notified of your new Git commit (via a webhook) and is executing your workflow.
-
-  ![](images/300/24.png)
-
-- You should see that the **build** pipeline completes successfully, but the **deploy** pipeline fails. That's what we expected, since we have not yet defined the steps for the **deploy** pipeline in our wercker.yml file.
-
-  ![](images/300/25.png)
-
-- Click on the green **build** pipeline to drill into the details of each step. Note that you can click on each step to see the console output produced by that step. In our case that output includes things like the results of the tests that Maven executed before packaging our application. If any commands produce an error status code, Wercker will abort the workflow and notify you via email.
-
-  ![](images/300/26.png)
-
-- Our next step is to define the second part of our workflow, the **deploy** pipeline, which will pull from our container image in a Docker Hub repository after a successful **build**.
-
-
-
-### **STEP 8**: Validate Workflow Execution
-
-- As we learned earlier, we do not yet have enough information to enable Wercker to deploy the Docker image to our OKE cluster -- we still need the Kubernetes authentication token and store it in a Wercker environment variable as well as the Kubernetes master node for the deployment.
-
-  ![](images/300/30.png)
-
-- Once the workflow finishes, you'll see that the `build` pipeline was successfully completed, but that the `deploy` pipeline ended in an error. This is what we expected. In fact, if you click on the **deploy** pipeline that failed, you will see the `No pipeline named deploy` error message, indicating our lack of a deploy pipeline definition. Let's move on to the next lab to set up our Kubernetes infrastructure, and create the `deploy` pipeline.
-
-
-
-
-
-
-
-
-
-### **STEP 8**: Install and Test kubectl on Your Local Machine
+### **STEP 6**: Install and Test kubectl on Your Local Machine
 
 - The method you choose to install `kubectl` will depend on your operating system and any package managers that you may already use. The generic method of installation, downloading the binary file using `curl`, is given below (**run the appropriate command in a terminal or command prompt**). If you prefer to use a package manager such as apt-get, yum, homebrew, chocolatey, etc, please find the specific command in the [Kubernetes Documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
@@ -295,9 +208,9 @@ For this lab you will need a Github account. Use the following link to set one u
     ./kubectl get nodes
     ```
 
-    ![](images/LabGuide200-397f4902.png)
+    ![](images/LabGuide300-397f4902.png)
 
-    ![](images/LabGuide200-778c8b15.png)
+    ![](images/LabGuide-778c8b15.png)
 
     **NOTE**: You should see in the `cluster-info` that the Kubernetes master has an `oraclecloud.com` URL. If it instead has a `localhost` URL, your `KUBECONFIG` environment variable may not be set correctly. Double check the environment variable against the path and filename of your `kubeconfig` file.
 
@@ -337,22 +250,14 @@ For this lab you will need a Github account. Use the following link to set one u
 
 - You are asked to authenticate to view the dashboard. Click **Choose kubeconfig file** and select your `kubeconfig` file from the folder `~/container-workshop/kubeconfig`. Click **Open**, then click **Sign In**.
 
-  ![](images/100/LabGuide200-2a1a02ce.png)
+  ![](images/300/LabGuide200-2a1a02ce.png)
 
 - After authenticating, you are presented with the Kubernetes dashboard.
 
-  ![](images/100/LabGuide200-eed32915.png)
+  ![](images/300/LabGuide200-eed32915.png)
 
 - Great! We've got Kubernetes installed and accessible -- now we're ready to get our microservice deployed to the cluster. The next step is to tell Wercker how and where we would like to deploy our application. In your **terminal window**, press **Control-C** to terminate `kubectl proxy`. We will need the terminal window to gather some cluster info in another step. We'll start the proxy again later.
 
 
 
-
-
-
-
-
-
-
-
-**You are now ready to move to the next lab: [Lab 400](LabGuide400.md)**
+**You are now ready to move to the next lab: [Lab 300](LabGuide300.md)**
