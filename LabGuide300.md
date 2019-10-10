@@ -260,4 +260,4 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 
 
-**You are now ready to move to the next lab: [Lab 300](LabGuide300.md)**
+**You are now ready to move to the next lab: [Lab 400](LabGuide400.md)**

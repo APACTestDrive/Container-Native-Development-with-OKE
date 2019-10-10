@@ -23,8 +23,7 @@ During this lab, you will take on the **DevOps Engineer Persona**. You will prov
 
 ## Required Artifacts
 
-- The following lab requires:
-  - An Oracle Cloud Trial Account
+- The following lab requires an Oracle Public Cloud account. You may use your own cloud account, or a cloud account that you obtained through a trial.
 
 # Provision Kubernetes Using the OCI Console
 
