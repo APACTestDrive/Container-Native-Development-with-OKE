@@ -1,6 +1,6 @@
 # Provision an Autonomous Transaction Processing Database
 
-![](images/200/header.png)
+![](images/200/header200.png)
 
 ## Introduction
 

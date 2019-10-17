@@ -1,6 +1,6 @@
 # Downloading a kubeconfig File to Enable Cluster Access
 
-![](images/300/header.png)
+![](images/300/header300.png)
 
 ## Introduction
 

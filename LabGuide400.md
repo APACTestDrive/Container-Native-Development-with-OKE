@@ -1,14 +1,14 @@
 # Containerize Your Node.js Microservice
 
-![](images/400/header.png)
+![](images/400/header400.png)
 
 ## Introduction
 
-This is the second of several labs that are part of the **Oracle Public Cloud Container Native Development workshop**. This workshop will walk you through the process of moving an existing application into a containerized CI/CD pipeline and deploying it to a Kubernetes cluster in the Oracle Public Cloud.
+This is the forth of several labs that are part of the **Oracle Public Cloud Container Native Development workshop**. This workshop will walk you through the process of moving an existing application into a containerized CI/CD pipeline and deploying it to a Kubernetes cluster in the Oracle Public Cloud.
 
 You will take on 2 personas during the workshop. The **Lead Developer Persona** will be responsible for configuring the parts of the automated build and deploy process that involve details about the application itself. The **DevOps Engineer Persona** will configure the parts of the automation involving the Kubernetes infrastructure. To containerize and automate the building and deploying of this application you will make use of Wercker Pipelines for CI/CD, Docker Hub for a Docker container registry, and Oracle Container Engine for Kubernetes (OKE) to provision a Kubernetes cluster on Oracle Cloud Infrastructure.
 
-During this lab, you will take on the **Lead Developer Persona** and work on containerizing your existing Java application. You will set up Wercker to monitor your application's source code repository for commits and automatically trigger a build, and package pipeline, which will result in a Docker image of your application that is ready to be deployed.
+During this lab, you will take on the **Lead Developer Persona** and work on containerizing your Node.js application. You will set up Wercker to monitor your application's source code repository for commits and automatically trigger a build, and package pipeline, which will result in a Docker image of your application that is ready to be deployed.
 
 
 ## Objectives
@@ -17,14 +17,13 @@ During this lab, you will take on the **Lead Developer Persona** and work on con
 
 - Create Wercker Application
   - Fork Node.js Application on GitHub
-  - Create a Wercker account
   - Create Wercker application
 - Create and Run Wercker Pipelines
   - Configure Pipelines and Workflow in Wercker
   - Define Wercker Build Pipeline
   - Set Environment Variables in Wercker
-  - Define Wercker Publish Pipeline
-  - Validate Workflow Execution
+  - Define Wercker Deoploy Pipeline
+  - Validate Pipelines Execution
 
 ## Required Artifacts
 
@@ -48,32 +47,12 @@ For this lab you will need a Github account. Use the following link to set one u
 
   **NOTE:** If prompted, choose to fork the repository to your account (this may occur if your account is also a member of an organization on GitHub).
 
-### **STEP 2**: Create a Wercker account
 
-  **NOTE** If you already have a Wercker account, use your account to log into Wercker, and proceed to **STEP 3**. If you have not associated your existing Wercker account with your GitHub account, you can do so in the **Settings->Git Connections** menu, found in the user dropdown in the top right corner of Wercker.
+### **STEP 2**: Create a Wercker Application
 
-- In a new browser tab, go to:
-    [http://app.wercker.com/](http://app.wercker.com/)
+- Go back to your Wercker console. You should still be logged in.
 
-- Click **Sign Up** in the upper right hand corner of the browser. Alternately, if you have already signed up for a Wercker account, click **log in** and then **log in with GitHub** and skip to **STEP 3**.
-
-  ![](images/400/LabGuide100-ce2ae3c1.png)
-
-- Click **Sign Up Using GitHub**
-
-  ![](images/400/3.png)
-
-- Click the green **Authorize Wercker** button
-
-  ![](images/400/4.png)
-
-- Enter **a username and your email address** to complete your Wercker account creation
-
-  ![](images/400/5.png)
-
-### **STEP 3**: Create a Wercker Application
-
-- If this is your first Wercker application, click the blue **Create your first application** button. If you already have applications in your Wercker account, click the **plus button** in the upper right hand corner of the browser and select **Add application**:
+- Click the **plus button** in the upper right hand corner of the browser and select **Add application**:
 
   ![](images/400/6.png)
 
@@ -98,9 +77,9 @@ For this lab you will need a Github account. Use the following link to set one u
 
 ## Create and Run Wercker Build Pipeline
 
-### **STEP 4**: Configure Pipelines and Workflow in Wercker
+### **STEP 3**: Configure Pipelines and Workflow in Wercker
 
-- Navigate to the Wercker page for your newly-created application (you will already be on that page if you just completed **STEP 3**). Notice that you are viewing the **Runs** tab. This is where any executions of your workflow will be recorded.
+- Navigate to the Wercker page for your newly-created application (you will already be on that page if you just completed **STEP 2**). Notice that you are viewing the **Runs** tab. This is where any executions of your workflow will be recorded.
 
   ![](images/400/16.png)
 
@@ -108,7 +87,7 @@ For this lab you will need a Github account. Use the following link to set one u
 
   ![](images/400/17.png)
 
-- The **build** pipeline will be used to build and unit test our application. Let's create a new pipeline to store the resulting Docker image in a Docker Hub repository. Click the **Add new pipeline** button.
+- The **build** pipeline will be used to build your application and the resulting Docker image to Docker Hub repository. Click the **Add new pipeline** button.
 
   ![](images/400/18.png)
 
@@ -124,15 +103,15 @@ For this lab you will need a Github account. Use the following link to set one u
 
   ![](images/400/20.png)
 
-- In the **Execute Pipeline** drop down list, choose the pipeline we just created, **push-release**. Leave the other fields at their default values and click **Add**.
+- In the **Execute Pipeline** drop down list, choose the pipeline we just created, **deploy**. Leave the other fields at their default values and click **Add**.
 
   ![](images/400/21.png)
 
-- Now that we've got a workflow configured that will build and store a Docker image containing our application, we need to define exactly how to do that in a file called **wercker.yml**, which we will store in our application's Git repository.
+- Now that we've got a workflow configured, it will build and store a Docker image containing our application. We need to define exactly how to do that in a file called **wercker.yml**, which we will store in our application's Git repository.
 
 
 
-### **STEP 5**: Set Environment Variables in Wercker
+### **STEP 4**: Set Environment Variables in Wercker
 
 - In your Wercker browser tab, click the **Environment** tab.
 
@@ -145,6 +124,7 @@ For this lab you will need a Github account. Use the following link to set one u
   DOCKER_USERNAME   <your-dockerhub-username>
   DOCKER_REGISTRY   https://registry.hub.docker.com/v2
   DOCKER_REPO       <your-dockerhub-username>/cndoke
+  OCIAPIKEY_PRIVATE <your-oci-api-private-key>
   ```
 
   ![](images/LabGuide100-ff28ad1b.png)
@@ -155,12 +135,12 @@ For this lab you will need a Github account. Use the following link to set one u
 
   - The `DOCKER_REGISTRY` value above assumes you are using Docker Hub.
 
-- This is all of the environment variables that we can fill in at this point. For now, let's finish setting up the `build` pipeline in Wercker so that we can try the build.
+- This is all of the environment variables that we need to fill in at this point. For now, let's finish setting up the **build** pipeline in Wercker so that we can try the build.
 
 
 
 
-### **STEP 6**: Define Wercker Build Pipeline
+### **STEP 5**: Define Wercker Build Pipeline
 
 - Switch back to your GitHub browser tab, showing your forked copy of the **cndoke** repository, and click **Create new file**
 
@@ -355,4 +335,4 @@ For this lab you will need a Github account. Use the following link to set one u
 
 
 
-**You are now ready to move to the next lab: [Lab 400](LabGuide400.md)**
+**You are now ready to move to the next lab: [Lab 500](LabGuide500.md)**

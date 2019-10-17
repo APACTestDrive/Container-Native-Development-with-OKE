@@ -1,6 +1,6 @@
 # Provision Kubernetes Using the OCI Console
 
-![](images/100/header.png)
+![](images/100/header100.png)
 
 ## Introduction
 
@@ -29,41 +29,20 @@ During this lab, you will take on the **DevOps Engineer Persona**. You will prov
 
 ## Set Up Oracle Cloud Infrastructure
 
-### **STEP 1**: Log in to your OCI dashboard
+### **STEP 1**: Log in to your OCI Console
 
-- If you are using a Trial Account, **you must wait until you receive this email** indicating that your Cloud Account has been provisioned. _Please note that this email may arrive in your spam or promotions folder pending your email settings._
-
-  ![](images/oraclecode/code_9.png)
-
-- Once you receive the **Get Started with Oracle Cloud** Email, make note of your **Username, Password and Cloud Account Name**.
-
-  ![](images/100/0.1.png)
+- You should have already acquired your Oracle Cloud Trial account before proceeding.
 
 - From any browser go to:
 
-    [https://cloud.oracle.com/en_US/sign-in](https://cloud.oracle.com/en_US/sign-in)
+    [https://console.us-ashburn-1.oraclecloud.com/#/a/](https://console.us-ashburn-1.oraclecloud.com/#/a/)
 
-- Enter your **Cloud Account Name** in the input field and click the **My Services** button. If you have a trial account, this can be found in your welcome email. Otherwise, this will be supplied by your workshop instructor.
-
-  ![](images/100/1.png)
+- Verify your cloud tenant
 
 - Enter your **Username** and **Password** in the input fields and click **Sign In**. If you have a trial account, these can be found in your welcome email.
 
-  ![](images/100/2.png)
+  ![](images/100/1.png)
 
-**NOTE**: If you have used your trial account already, you may have been prompted to change the temporary password listed in the welcome email. In that case, enter the new password in the password field.
-
-- In the top left corner of the dashboard, click the **hamburger menu**
-
-  ![](images/100/3.png)
-
-- Click to expand the **Services** submenu, then click **Compute**
-
-  ![](images/100/4.png)
-
-- On the OCI Console sign in page, enter the same **Username** as you did on the previous sign in page. If you are using a trial account and this is your first time logging into the OCI Console, enter the **temporary password** from your trial account welcome email. If you have already visited the OCI Console and changed your password, enter your **new password**. Otherwise, this password will be supplied by your workshop instructor.
-
-  ![](images/100/5.png)
 
 ### **STEP 2**: Create a Compartment for your Kubernetes nodes
 
@@ -71,57 +50,57 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
 
 - Click the **hamburger icon** in the upper left corner to open the navigation menu. Under the **Identity** section of the menu, click **Compartments**
 
-  ![](images/100/LabGuide200-c32a35b9.png)
+  ![](images/100/2.png)
 
   - If you have a **Demo** compartment already, _**SKIP THIS STEP**_. Otherwise, Click **Create Compartment**
 
-    ![](images/100/7.png)
+    ![](images/100/3.png)
 
   - In the **Name** field, enter `Demo`. Enter a description of your choice. In the **Parent Compartment** field, ensure that the `root` compartment is selected (it will have the same name as your Oracle Cloud Account). Click **Create Compartment**.
 
-    ![](images/LabGuide200-2b3b6b30.png)
+    ![](images/100/4.png)
 
 ### **STEP 3**: Add a Policy Statement for OKE
 
   - Before the Oracle managed Kubernetes service can create compute instances in your OCI tenancy, we must explicitly give it permission to do so using a policy statement. From the OCI Console navigation menu, choose **Identity->Policies**.
 
-    ![](images/100/LabGuide200-13c980fa.png)
+    ![](images/100/5.png)
 
   - In the Compartment drop down menu on the left side, choose the **root compartment**. It will have the same name as your OCI tenancy (Cloud Account Name).
 
-    ![](images/100/LabGuide200-a321171a.png)
+    ![](images/100/6.png)
 
   - Click **PSM-root-policy**
 
-    ![](images/100/LabGuide200-e67b7705.png)
+    ![](images/100/7.png)
 
   - Click the **Add Policy Statement** button
 
-    ![](images/100/LabGuide200-3d4a7471.png)
+    ![](images/100/8.png)
 
   - In the Statement box, enter: `allow service OKE to manage all-resources in tenancy` and click **Add Statement**
 
-    ![](images/100/LabGuide200-bd5bcbd1.png)
+    ![](images/100/9.png)
 
 
 ### **STEP 4**: Provision Kubernetes Using the OCI Console
 
   - Now we're ready to create our Kubernetes cluster. From the OCI Console navigation menu, select **Developer Services->Container Clusters (OKE)**.
 
-    ![](images/100/LabGuide200-5c0a2b4c.png)
+    ![](images/100/10.png)
 
   - In the Compartments drop down, select the **Demo** compartment.
 
-    ![](images/100/LabGuide200-4071818d.png)
+    ![](images/100/11.png)
 
   - Click **Create Cluster**
 
-    ![](images/100/LabGuide200-2e2ab7ca.png)
+    ![](images/100/12.png)
 
   - We don't need to make any changes to the default values on this form, but let's look at what will be created when we submit it.
 
-    ![](images/LabGuide200-6ff14524.png)
-    ![](images/LabGuide200-11191333.png)
+    ![](images/100/13.png)
+    ![](images/100/14.png)
 
     - Starting at the top you'll notice that the cluster will be created in our **Demo** compartment.
     - We can customize the name of this cluster if we want
@@ -173,7 +152,7 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
 
   You can now upload the PEM public key in the OCI Console.
 
-  - In the Console, click **api.user**, and then click **User Settings**. The user details page is now shown.
+  - In the Console, click on the **Profile** icon on the right hand corner and then select _your username_. The user details page is now shown.
 
   - Click **Add Public Key**
 
