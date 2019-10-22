@@ -179,9 +179,9 @@ Alternatively if you're using Windows or you have difficulty in installing **ope
 
   ![](images/100/19.png)
 
-    You should see something similar to below with the key's fingerprint under the API Keys.
+  You should see something similar to below with the key's fingerprint under the API Keys.
 
-    ![](images/100/20.png)
+  ![](images/100/20.png)
 
 
 ### **STEP 7**: Verify Your Clusters
