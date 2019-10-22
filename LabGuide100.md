@@ -117,11 +117,11 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
 
 ### **STEP 5**: Generate an API Signing Key Pair
 
-  The following steps assumes you're using a Linux or MacOS system.
+  Depending on whether you are a Linux/MacOS or Windows user, you have a couple of ways of generating a key pair in PEM format. For Linux or MacOS, you can use **openssl**. Alternatively if you're using Windows or you have difficulty in installing **openssl** then you can use our **Online RSA Key Generator** tool to generate the key pair for you.
 
-  Use OpenSSL commands to generate the key pair in the required PEM format.
+  The following steps assumes you're using a Linux or MacOS system. Use OpenSSL commands to generate the key pair in the required PEM format.
 
-  - If you haven't already, create a .oci directory to store the credentials:
+  - If you haven't already, create a `.oci` directory to store the credentials:
 
     `mkdir ~/.oci`
 
@@ -148,19 +148,40 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
     When you upload the public key in the Console, the fingerprint is also automatically displayed there. It looks something like this: `12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef`
 
 
+Alternatively if you're using Windows or you have difficulty in installing **openssl** then you can use our **Online RSA Key Generator** tool.
+
+- Navigate to the [Online RSA Key Generator](http://keys.orcl.app) tool. You will be presented with the private and public key pair.
+
+    ![](images/100/15.png)
+    ![](images/100/16.png)
+
+- Copy the keys and paste them into their respective files
+
+    `~/.oci/oci_api_key_public.pem` and
+
+    `~/.oci/oci_api_key.pem`
+
+
+
 ### **STEP 6**: Upload the Public Key of the API Signing Key Pair
 
   You can now upload the PEM public key in the OCI Console.
 
   - In the Console, click on the **Profile** icon on the right hand corner and then select _your username_. The user details page is now shown.
 
+  ![](images/100/17.png)
+
   - Click **Add Public Key**
+
+  ![](images/100/18.png)
 
   - Paste the contents of the PEM public key in the dialog box and click **Add**
 
+  ![](images/100/19.png)
+
     You should see something similar to below with the key's fingerprint under the API Keys.
 
-    ![](images/100/72.png)
+    ![](images/100/20.png)
 
 
 ### **STEP 7**: Verify Your Clusters
