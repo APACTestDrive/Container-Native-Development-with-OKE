@@ -17,7 +17,9 @@ Due to the possible differences that may arise from the installation of OCI-CLI 
 
 ## Objectives
 
-**Configure Wercker and Automate the Execution of The oke-kubconfig  Download Tool**
+This lab will introduce Wercker as our CI/CD tooling for building container native applications. We will start building a **kubeconfig** download tool to get you familiarise with Wercker. In the next lab we build on the foundation we acquired during this lab module.
+
+**Configure Wercker and Automate the Execution of The oke-kubconfig Download Tool**
 
 - Create Wercker Application
   - Fork the **oke-kubeconfig** download tool from GitHub
@@ -43,7 +45,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - From any browser, go to:
 
-  [https://github.com/kwanwan/okeight](https://github.com/kwanwan/oke-kubeconfig)
+  [https://github.com/kwanwan/oke-kubeconfig](https://github.com/kwanwan/oke-kubeconfig)
 
 - Click **Fork** in the upper right hand corner of the browser. **Sign in** if prompted.
 
@@ -60,7 +62,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - Click **Sign Up** in the upper right hand corner of the browser. Alternately, if you have already signed up for a Wercker account, click **log in** and then **log in with GitHub** and skip to **STEP 3**.
 
-  ![](images/300/LabGuide100-ce2ae3c1.png)
+  ![](images/300/2.png)
 
 - Click **Sign Up Using GitHub**
 
@@ -87,7 +89,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - Click on the **oke-kubeconfig** repository that appears in the list of your GitHub repositories, then click **Next**
 
-  ![](images/300/LabGuide100-65267c06.png)
+  ![](images/300/8.png)
 
 - Leave the default selection of checkout without an SSH key and click **Next**
 
@@ -95,7 +97,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - Click **Create**
 
-  ![](images/300/LabGuide100-1066e6c2.png)
+  ![](images/300/10.png)
 
 
 
@@ -105,11 +107,11 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - Navigate to the Wercker page for your newly-created application (you will already be on that page if you just completed **STEP 3**). Notice that you are viewing the **Runs** tab. This is where any executions of your workflow will be recorded.
 
-  ![](images/300/16.png)
+  ![](images/300/11.png)
 
 - Click the **Workflows** tab. You will see that Wercker has created the beginning of a workflow for you already. This workflow is triggered by a Git commit and it will execute a pipeline called **build**.
 
-  ![](images/300/17.png)
+  ![](images/300/12.png)
 
 - The **build** pipeline will be used to build a Docker image that contains a shell script `get-kubeconfig.sh`. This will be executed with a set of environment variables passed to it. You can find the `get-kubeconfig.sh` in the Github **oke-kubeconfig** repository.
 
@@ -121,7 +123,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - In your Wercker browser tab, click the **Environment** tab.
 
-  ![](images/300/31.png)
+  ![](images/300/13.png)
 
 - Create an environment variable by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
@@ -138,29 +140,47 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - You should end up with something similar to below.
 
-  ![](images/300/41.png)
+  ![](images/300/14.png)
 
   **NOTES**:
 
-  - You can collect the values for the above keys in the OCI Console.
+  - You can collect the user OCID, API fingerprint and region values from OCI Console **User Details** page.
 
+    ![](images/300/15.png)
+
+  - Similarly the OCI tenancy ID can be obtained from the OCI Console **Tenancy Details** page.
+
+    ![](images/300/16.png)
+
+  - As for the OKE cluster ID, this can be located on the **Cluster Details** page for the cluster you created in Lab 100.
+
+    ![](images/300/17.png)
+
+  - Select one of two endpoints for your region, either ashburn or phoenix.
+
+    - `containerengine.us-ashburn-1.oraclecloud.com`
+    - `containerengine.us-phoenix-1.oraclecloud.com`
 
 
 - Switch back to your Runs tab by clicking on the **Runs** tab.
 
 - Click on **trigger a build now** at the bottom of the page to execute the **build** pipeline
 
-  ![](images/300/42.png)
+  ![](images/300/18.png)
 
 - Click on the green **build** pipeline to drill into the details of each step. Note that you can click on each step to see the console output produced by that step. In our case we are interested the **docker build** step.
 
-- Wait for the **docker build** step to complete and if successful you should see the content of your `kubeconfig` printed towards the bottom of the output in between the lines `=======PLEASE COPY AN PASTE BELOW` and `=======PLEASE COPY AN PASTE ABOVE` as shown below.
+- Wait for the **docker build** step to complete and if successful you should see the content of your `kubeconfig` printed towards the bottom of the output in between the lines
 
-  ![](images/300/43.png)
+`=======PLEASE COPY AN PASTE BELOW` and
+
+`=======PLEASE COPY AN PASTE ABOVE` as shown below.
+
+  ![](images/300/19.png)
 
 - Our next step is to copy and paste the `kubeconfig` content into a blank `kubeconfig` file on your local machine. Save the `kubeconfig` file as a plain text file, not as a .docx, .rtf, .html, etc.
 
-  ![](images/300/44.png)
+  ![](images/300/20.png)
 
 - It is recommended to create a working directory such as `container-workshop` under your home directory. e.g. `~/container-workshop` for Mac or Linux.
 
@@ -170,7 +190,6 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 ### **STEP 6**: Install and Test kubectl on Your Local Machine
 
 - The method you choose to install `kubectl` will depend on your operating system and any package managers that you may already use. The generic method of installation, downloading the binary file using `curl`, is given below (**run the appropriate command in a terminal or command prompt**). If you prefer to use a package manager such as apt-get, yum, homebrew, chocolatey, etc, please find the specific command in the [Kubernetes Documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
-
 
   **Windows**
     ```bash
@@ -208,11 +227,12 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
     ./kubectl get nodes
     ```
 
-    ![](images/LabGuide300-397f4902.png)
+    ![](images/300/21.png)
 
-    ![](images/LabGuide-778c8b15.png)
+    ![](images/300/22.png)
 
     **NOTE**: You should see in the `cluster-info` that the Kubernetes master has an `oraclecloud.com` URL. If it instead has a `localhost` URL, your `KUBECONFIG` environment variable may not be set correctly. Double check the environment variable against the path and filename of your `kubeconfig` file.
+
 
 - Now that we have verified that `kubectl` is connected to our cluster, let's increase the default auto-logout time so that we don't have to keep re-authenticating during the workshop. Note that the default logout time of 15 minutes is set for security reasons. The `--token-ttl=43200"` argument in the following command is the only change that we are making to the dashboard.
 
@@ -228,7 +248,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
   ./kubectl patch deployment kubernetes-dashboard -n kube-system -p '{"spec": {"template": {"spec": {"containers": [{"name": "kubernetes-dashboard", "args": ["--token-ttl=43200", "--auto-generate-certificates"]}]}}}}'
   ```
 
-  ![](images/LabGuide200-a5c59f02.png)
+  ![](images/300/23.png)
 
 - Now that we've increased the session timeout, we can use `kubectl` to start a proxy that will give us access to the Kubernetes Dashboard through a web browser at a localhost URL. Run the following command in the same terminal window:
 
@@ -242,7 +262,7 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
     ./kubectl proxy
     ```
 
-  ![](images/LabGuide200-73acec26.png)
+  ![](images/300/24.png)
 
   **NOTE**: If you receive an error stating `bind: address already in use`, you may have another application running on port 8001. You can specify a different port for the proxy by passing the `--port=` parameter, for example `kubectl proxy --port=8002`. Note that you  will have to modify the URL for the dashboard in the next step to match this port.
 
@@ -250,11 +270,11 @@ The tool for downloading the `kubeconfig` file is available as a Github project.
 
 - You are asked to authenticate to view the dashboard. Click **Choose kubeconfig file** and select your `kubeconfig` file from the folder `~/container-workshop/kubeconfig`. Click **Open**, then click **Sign In**.
 
-  ![](images/300/LabGuide200-2a1a02ce.png)
+  ![](images/300/25.png)
 
 - After authenticating, you are presented with the Kubernetes dashboard.
 
-  ![](images/300/LabGuide200-eed32915.png)
+  ![](images/300/26.png)
 
 - Great! We've got Kubernetes installed and accessible -- now we're ready to get our microservice deployed to the cluster. The next step is to tell Wercker how and where we would like to deploy our application. In your **terminal window**, press **Control-C** to terminate `kubectl proxy`. We will need the terminal window to gather some cluster info in another step. We'll start the proxy again later.
 
