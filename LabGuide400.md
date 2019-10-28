@@ -22,14 +22,16 @@ During this lab, you will take on the **Lead Developer Persona** and work on con
   - Configure Pipelines and Workflow in Wercker
   - Define Wercker Build Pipeline
   - Set Environment Variables in Wercker
+  - Create Docker Hub Repository
   - Define Wercker Deoploy Pipeline
   - Validate Pipelines Execution
 
 ## Required Artifacts
 
-For this lab you will need a Github account. Use the following link to set one up:
+For this lab you will need a Github and Docker Hub accounts. You should have GitHub set up already from the previous lab. Use the following link to set up a Docker Hub account:
 
-  - a [GitHub account](https://github.com/join)
+- [Docker Hub account](https://hub.docker.com)
+
 
 # Containerize Your Node.js Application and Automate Builds
 
@@ -54,101 +56,143 @@ For this lab you will need a Github account. Use the following link to set one u
 
 - Click the **plus button** in the upper right hand corner of the browser and select **Add application**:
 
-  ![](images/400/6.png)
+  ![](images/400/2.png)
 
 
 - Leave the default selections of **your account** for the owner and **GitHub** for the SCM and click **Next**
 
-  ![](images/400/7.png)
+  ![](images/400/3.png)
 
 - Click on the **cndoke** repository that appears in the list of your GitHub repositories, then click **Next**
 
-  ![](images/400/LabGuide100-65267c06.png)
+  ![](images/400/4.png)
 
 - Leave the default selection of checkout without an SSH key and click **Next**
 
-  ![](images/400/9.png)
+  ![](images/400/5.png)
 
 - Click **Create**
 
-  ![](images/400/LabGuide100-1066e6c2.png)
+  ![](images/400/6.png)
 
 - Do not generate a wercker.yml file -- we will create one in a later step.
 
-## Create and Run Wercker Build Pipeline
+
+## Create and Run Wercker Pipelines
 
 ### **STEP 3**: Configure Pipelines and Workflow in Wercker
 
 - Navigate to the Wercker page for your newly-created application (you will already be on that page if you just completed **STEP 2**). Notice that you are viewing the **Runs** tab. This is where any executions of your workflow will be recorded.
 
-  ![](images/400/16.png)
+  ![](images/400/7.png)
 
 - Click the **Workflows** tab. You will see that Wercker has created the beginning of a workflow for you already. This workflow is triggered by a Git commit and it will execute a pipeline called **build**.
 
-  ![](images/400/17.png)
+  ![](images/400/8.png)
 
-- The **build** pipeline will be used to build your application and the resulting Docker image to Docker Hub repository. Click the **Add new pipeline** button.
+- The **build** pipeline will be used to build your application and to store the resulting Docker image to Docker Hub repository. Click the **Add new pipeline** button.
 
-  ![](images/400/18.png)
+  ![](images/400/9.png)
 
 - Fill in `deploy` for the name of the pipeline and the YML name of the pipeline and click **Create**.
 
-  ![](images/400/19.png)
+  ![](images/400/10.png)
 
 - You will be presented with the pipeline's environment variable screen. We do not need to add any pipeline-specific environment variables, so just click on the **Workflows** tab to return to the workflow editor.
 
-  ![](images/400/LabGuide100-6f799cee.png)
+  ![](images/400/11.png)
 
-- Click the **plus sign** next to the build pipeline in the editor.
+- Click the **plus sign** next to the **build** pipeline in the editor.
 
-  ![](images/400/20.png)
+  ![](images/400/12.png)
 
 - In the **Execute Pipeline** drop down list, choose the pipeline we just created, **deploy**. Leave the other fields at their default values and click **Add**.
 
-  ![](images/400/21.png)
+  ![](images/400/13.png)
 
-- Now that we've got a workflow configured, it will build and store a Docker image containing our application. We need to define exactly how to do that in a file called **wercker.yml**, which we will store in our application's Git repository.
+- Now that we've got a workflow configured, it will build and store a Docker image containing our application. We need to define exactly how to do that in a file called **wercker.yml**, which we will store in our application's Git repository. We will define our **wercker.yml** in **STEP 7**.
+
+- Before defining the **wercker.yml** we will need to create a Docker Hub registry for our built Docker image to store and specify the Docker Hub registry details as environment variable in Wercker to be passed to our **build** pipeline.
 
 
 
-### **STEP 4**: Set Environment Variables in Wercker
+### **STEP 4**: Create a Docker Hub Account
+
+- If you don't have a Docker Hub account, then create one first, otherwise you can go to the next step.
+
+- In a browser, go to [Docker Hub](https://hub.docker.com)
+
+- Click **Sign Up fo Docker Hub**
+
+  ![](images/400/14.png)
+
+- Complete your Docker Identification
+
+  ![](images/400/15.png)
+
+
+
+### **STEP 5**: Create a Docker Hub a Repository
+
+
+- In a browser, go to Docker Hub and sign in.
+
+- Click on **Create** Repository.
+
+  ![](images/400/16.png)
+
+- In the **Name** field, enter `cndoke`. Optionally add descriptions and click **Create**.
+
+  ![](images/400/17.png)
+  ![](images/400/18.png)
+
+- Your repository is now ready for Wercker to push a Docker image into during the **build** pipeline. Let's configure the environment variables to pass these Docker detail to the **build** pipeline.
+
+
+
+### **STEP 6**: Set Wercker Environment Variables for the build Pipeline
 
 - In your Wercker browser tab, click the **Environment** tab.
 
-  ![](images/400/31.png)
+  ![](images/400/19.png)
 
 - Create an environment variable by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
   ```
   Key:              Value:
-  DOCKER_USERNAME   <your-dockerhub-username>
-  DOCKER_REGISTRY   https://registry.hub.docker.com/v2
+  DOCKER_USERNAME   Your Docker Hub username
+  DOCKER_PASSWORD   Your Docker Hub password
   DOCKER_REPO       <your-dockerhub-username>/cndoke
-  OCIAPIKEY_PRIVATE <your-oci-api-private-key>
+  DOCKER_REGISTRY   https://registry.hub.docker.com/v2
   ```
 
-  ![](images/LabGuide100-ff28ad1b.png)
+  ![](images/400/20.png)
 
-  **NOTES**:
+  **NOTE**:
 
   - Replace `<your-dockerhub-username>` in the variable values with your username for your Docker Hub account.
 
+  - Enter your Docker Hub password into the value field and click the **Protected** check box next to the field to hide your password.
+
+  - The `DOCKER_REPO` must be all lowercase. Enter a repo name of your new repo. e.g. `cndoke`
+
   - The `DOCKER_REGISTRY` value above assumes you are using Docker Hub.
 
-- This is all of the environment variables that we need to fill in at this point. For now, let's finish setting up the **build** pipeline in Wercker so that we can try the build.
+
+- This is all of the environment variables that we need to configure at this point. For now, let's finish setting up the **build** pipeline in Wercker so that we can try the build.
 
 
 
 
-### **STEP 5**: Define Wercker Build Pipeline
+### **STEP 7**: Define Wercker Build Pipeline
 
 - Switch back to your GitHub browser tab, showing your forked copy of the **cndoke** repository, and click **Create new file**
 
-  ![](images/400/13.png)
+  ![](images/400/21.png)
 
 - In the **Name your file...** input field, type `wercker.yml`
 
-  ![](images/400/14.png)
+  ![](images/400/22.png)
 
 - In the **Edit new file** input box, **paste** the following:
 
@@ -181,7 +225,7 @@ For this lab you will need a Github account. Use the following link to set one u
 
 - You should have **24 lines** of YAML in the editor:
 
-  ![](images/400/LabGuide100-f5af715a.png)
+  ![](images/400/23.png)
 
 - Let's look at the two sections of YAML that we've just added.
 
@@ -200,131 +244,162 @@ For this lab you will need a Github account. Use the following link to set one u
 
 - At the bottom of the page, click the **Commit new file** button.
 
-  ![](images/400/23.png)
+  ![](images/400/24.png)
 
 - Switch back to your **Wercker** browser tab and click on the **Runs** tab. If you are quick enough, you will see that Wercker has been notified of your new Git commit (via a webhook) and is executing your workflow.
 
-  ![](images/400/24.png)
-
-- You should see that the **build** pipeline completes successfully, but the **deploy** pipeline fails. That's what we expected, since we have not yet defined the steps for the **deploy** pipeline in our wercker.yml file.
-
   ![](images/400/25.png)
 
-- Click on the green **build** pipeline to drill into the details of each step. Note that you can click on each step to see the console output produced by that step. In our case that output includes things like the results of the tests that Maven executed before packaging our application. If any commands produce an error status code, Wercker will abort the workflow and notify you via email.
+- You should see that the **build** pipeline completes successfully, but the **deploy** pipeline fails. That's what we expected, since we have not yet defined the steps for the **deploy** pipeline in our **wercker.yml** file.
 
   ![](images/400/26.png)
 
-- Our next step is to define the second part of our workflow, the **deploy** pipeline, which will pull from our container image in a Docker Hub repository after a successful **build**.
+- Click on the green **build** pipeline to drill into the details of each step. Note that you can click on each step to see the console output produced by that step. In our case that output includes things like the results of the build before packaging our application. If any commands produce an error status code, Wercker will abort the workflow and notify you via email.
+
+  ![](images/400/27.png)
+
+- Our next step is to define the second part of our workflow, the **deploy** pipeline, which will pull from our container image in a Docker Hub repository after a successful build.
 
 
-
-### **STEP 8**: Validate Workflow Execution
+### **STEP 8**: Set Wercker Environment Variables for the deploy Pipeline
 
 - As we learned earlier, we do not yet have enough information to enable Wercker to deploy the Docker image to our OKE cluster -- we still need the Kubernetes authentication token and store it in a Wercker environment variable as well as the Kubernetes master node for the deployment.
 
-  ![](images/400/30.png)
 
-- Once the workflow finishes, you'll see that the `build` pipeline was successfully completed, but that the `deploy` pipeline ended in an error. This is what we expected. In fact, if you click on the **deploy** pipeline that failed, you will see the `No pipeline named deploy` error message, indicating our lack of a deploy pipeline definition. Let's move on to the next lab to set up our Kubernetes infrastructure, and create the `deploy` pipeline.
+- In your Wercker browser tab, click the **Environment** tab.
+
+  ![](images/400/19.png)
+
+- Create an environment variable at the end of the list by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
+
+  ```
+  Key:                Value:
+  KUBERNETES_MASTER   Your Kubernetes master node
+  KUBERNETES_TOKEN    Your Kubernetes authentication token
+  NS                  Your Kubernetes namespace. e.g. cndoke
+  ```
+
+  ![](images/400/28.png)
 
 
-
-
-
-
-
-
-
-### **STEP 8**: Install and Test kubectl on Your Local Machine
-
-- The method you choose to install `kubectl` will depend on your operating system and any package managers that you may already use. The generic method of installation, downloading the binary file using `curl`, is given below (**run the appropriate command in a terminal or command prompt**). If you prefer to use a package manager such as apt-get, yum, homebrew, chocolatey, etc, please find the specific command in the [Kubernetes Documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
-
+- Our first step is to set our cluster's authentication token as a Wercker environment variable. In your **terminal window**, run the following commands to output the token, then **select it and copy it** to your clipboard:
 
   **Windows**
     ```bash
     cd %USERPROFILE%\container-workshop
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.11.2/bin/windows/amd64/kubectl.exe
+    notepad kubeconfig
     ```
 
-  **Mac**
+    - Find the `token:` section at the bottom of the file, and copy the token value from there.
+
+    ![](images/400/29.png)
+
+  **Mac/Linux**
     ```bash
     cd ~/container-workshop
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
-    chmod +x ./kubectl
+    cat kubeconfig | grep token | awk '{print $2}'
     ```
 
-  **Linux**
-    ```bash
-    cd ~/container-workshop
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    chmod +x ./kubectl
-    ```
+    ![](images/400/30.png)
 
-- In your terminal window or command prompt, run the following commands to verify that `kubectl` is able to communicate with your cluster. You should see `cluster-info` print out the URL of the Kubernetes Master node and `get nodes` print out the IP address and status of each of the worker nodes.
 
-  **Windows**
-    ```bash
-    set KUBECONFIG=%USERPROFILE%\container-workshop\kubeconfig
-    kubectl.exe cluster-info
-    kubectl.exe get nodes
-    ```
+- Back in your Wercker browser tab, click the **Environment** tab. In the key field of the empty row below the last environment variable, enter the key **KUBERNETES_AUTH_TOKEN**. In the value field, **paste** the token we just copied. Check the **Protected** box and click **Add**.
+
+    ![](images/400/31.png)
+
+- The next environment variable we need to add is the address of the Kubernetes master we want to deploy to. You can find this the **kubeconfig** file.
+
+  **Windows/Mac/Linux**
+
+  - Locate the line with `server`, then **Copy and Paste** the `server` string from your **kubeconfig** file:
+
+    ![](images/400/32.png)
+
+
+- Alternative, for Mac and Linux users, we can get the `server` URL from `kubectl`. Run the following command in your **terminal window** to output the URL, then **select it and copy it** to your clipboard:
 
   **Mac/Linux**
+
+  - For Mac/Linux:
+
     ```bash
-    export KUBECONFIG=~/container-workshop/kubeconfig
-    ./kubectl cluster-info
-    ./kubectl get nodes
+    echo $(./kubectl config view | grep server | cut -f 2- -d ":" | tr -d " ")
     ```
 
-    ![](images/LabGuide200-397f4902.png)
+  - In your Wercker browser tab, add a new environment variable with the key **KUBERNETES_MASTER**. In the value field, **paste** the value you copied from `kubectl`. The value **must start with https://** for Wercker to communicate with the cluster. When finished, click **Add**.
 
-    ![](images/LabGuide200-778c8b15.png)
+    ![](images/400/33.png)
 
-    **NOTE**: You should see in the `cluster-info` that the Kubernetes master has an `oraclecloud.com` URL. If it instead has a `localhost` URL, your `KUBECONFIG` environment variable may not be set correctly. Double check the environment variable against the path and filename of your `kubeconfig` file.
+    **NOTE**: You can also find this address in the OCI Console OKE page, by clicking on your cluster name to view the detail page:
 
-- Now that we have verified that `kubectl` is connected to our cluster, let's increase the default auto-logout time so that we don't have to keep re-authenticating during the workshop. Note that the default logout time of 15 minutes is set for security reasons. The `--token-ttl=43200"` argument in the following command is the only change that we are making to the dashboard.
+      ![](images/400/34.png)
 
-  **NOTE**: The following commands are **optional**.
+- The last environment variable we need to add is the namespace of the Kubernetes. You can find this the kubeconfig file. Namespace is a way to divide cluster resources between multiple users. It is good practice to deploy your application into your own namespace.
 
-  **Windows**
-  ```bash
-  kubectl.exe patch deployment kubernetes-dashboard -n kube-system -p "{\"spec\": {\"template\": {\"spec\": {\"containers\": [{\"name\": \"kubernetes-dashboard\", \"args\": [\"--token-ttl=43200\", \"--auto-generate-certificates\"]}]}}}}"
+  - In your Wercker browser tab, add a new environment variable with the key **NS**. In the value field, enter `cndoke` as the value or a value of your choice such as your name. When finished, click **Add**.
+
+
+
+### **STEP 9**: Define Wercker Deployment Pipeline
+
+- Switch back to your GitHub browser tab.
+
+- Click the file **wercker.yml** and then click the **pencil** button to begin editing the file.
+
+    ![](images/400/35.png)
+
+- **Copy** the YAML below and **paste** it below the pipelines we defined earlier.
+
+  ```yaml
+  deploy:
+  box:
+    id: alpine
+    cmd: /bin/sh
+  steps:
+    - bash-template
+
+    - kubectl:
+        name: apply namespace
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: apply -f ./ns.yml
+    - kubectl:
+        name: delete OCR secret
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: delete secret wrelease --namespace=$NS --ignore-not-found=true
+    - kubectl:
+        name: create OCR secret
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: create secret docker-registry wrelease --docker-server=$DOCKER_REGISTRY --docker-username=$DOCKER_USERNAME --docker-password="$DOCKER_PASSWORD" --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$NS
+    - kubectl:
+        name: apply deplyoment
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: apply -f ./cndoke-deploy.yml --namespace=$NS
+    - kubectl:
+        name: apply service
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: apply -f ./cndoke-service.yml --namespace=$NS
   ```
 
-  **Mac/Linux**
-  ```bash
-  ./kubectl patch deployment kubernetes-dashboard -n kube-system -p '{"spec": {"template": {"spec": {"containers": [{"name": "kubernetes-dashboard", "args": ["--token-ttl=43200", "--auto-generate-certificates"]}]}}}}'
-  ```
 
-  ![](images/LabGuide200-a5c59f02.png)
+  >This will define a new **Pipeline** called deploy-to-cluster. The pipeline will make use of a new type of step: **kubectl**. If you have used Kubernetes before, you will be familiar with kubectl, the standard command line interface for managing Kubernetes. The kubectl Wercker step can be used to execute Kubernetes commands from within a Pipeline.
 
-- Now that we've increased the session timeout, we can use `kubectl` to start a proxy that will give us access to the Kubernetes Dashboard through a web browser at a localhost URL. Run the following command in the same terminal window:
+    >The **deploy** Pipeline will prepare our kubernetes.yml file by filling in some environment variables. It will then use kubectl to tell Kubernetes to apply that configuration to our cluster.
 
-  **Windows**
-    ```bash
-    kubectl.exe proxy
-    ```
+- At the bottom of the page, click **Commit new file**
 
-  **Mac/Linux**
-    ```bash
-    ./kubectl proxy
-    ```
+  ![](images/200/29.png)
 
-  ![](images/LabGuide200-73acec26.png)
-
-  **NOTE**: If you receive an error stating `bind: address already in use`, you may have another application running on port 8001. You can specify a different port for the proxy by passing the `--port=` parameter, for example `kubectl proxy --port=8002`. Note that you  will have to modify the URL for the dashboard in the next step to match this port.
-
-- Leave the proxy server running and navigate to the [Kubernetes Dashboard by Right Clicking on this link](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/), and choosing **open in a new browser tab**.
-
-- You are asked to authenticate to view the dashboard. Click **Choose kubeconfig file** and select your `kubeconfig` file from the folder `~/container-workshop/kubeconfig`. Click **Open**, then click **Sign In**.
-
-  ![](images/100/LabGuide200-2a1a02ce.png)
-
-- After authenticating, you are presented with the Kubernetes dashboard.
-
-  ![](images/100/LabGuide200-eed32915.png)
-
-- Great! We've got Kubernetes installed and accessible -- now we're ready to get our microservice deployed to the cluster. The next step is to tell Wercker how and where we would like to deploy our application. In your **terminal window**, press **Control-C** to terminate `kubectl proxy`. We will need the terminal window to gather some cluster info in another step. We'll start the proxy again later.
-
+- Since you've committed to the repository again, Wercker will once again trigger an execution of your workflow. We still haven't configured the deployment pipelines in Wercker yet, so we'll still end up with a new Run and a new image, but not a deployment to Kubernetes.
 
 
 
