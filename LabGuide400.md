@@ -451,7 +451,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   ![](images/400/42.png)
 
-- On the service page, you will see a column called **External endpoints**. Once the load balancer has finished provisioning, the External endpoints column will be populated with a link to the product catalog application. If the link is not shown yet, wait a few minutes, refresh your browser, and check again. Once the link is displayed, click it to launch the site in a new tab.
+- On the service page, you will see a column called **External endpoints**. Once the load balancer has finished provisioning, the External endpoints column will be populated with a link to the CafeSupremo application. If the link is not shown yet, wait a few minutes, refresh your browser, and check again. Once the link is displayed, click it to launch the site in a new tab.
 
 - You should see the CafeSupremo site load successfully, validating that our new Kubernetes deployment and service were created correctly. Let's test the CafeSupremo functionality of the catalog. However, you may have noticed that the page may not have been rendered correctly as the graphics are oversized.
 
@@ -473,13 +473,13 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - A login dialog box will pop up with the _Username_ pre-filled. Enter `Oracle123` in the password field and click **Submit**.
 
-- You not be able to login and should see the following error message.
+- You would not be able to login and should see the following error message.
 
   ![](images/400/46.png)
 
 - This is expected as our login feature has not been enabled yet. Also the database has not been populated with customer data.
 
-- We have now verified the correct deployment of our application. We create the customer schema and populate it with data in the next lab. We will also try out our automated CI/CD pipeline by enabling the login function in the next lab.
+- We have now verified the correct deployment of our application. But we need to create the customer schema and populate it with data in the next lab. We will also try out our automated CI/CD pipeline by enabling the login function in the next lab.
 
 
 **You are now ready to move to the next lab: [Lab 500](LabGuide500.md)**
