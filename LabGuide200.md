@@ -12,6 +12,8 @@ During this lab, you will take on the **DevOps Engineer Persona**. You will prov
 
 ## Objectives
 
+**Provision and Configure an Autonomous Transaction Processing Database**
+
 - Provision a new Autonomous Transaction Processing database
 
 ## Required Artifacts

@@ -276,7 +276,10 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
   Key:                Value:
   KUBERNETES_MASTER   Your Kubernetes master node
   KUBERNETES_TOKEN    Your Kubernetes authentication token
-  NS                  Your Kubernetes namespace. e.g. cndoke
+  NS                  Your Kubernetes namespace. (e.g. cndoke)
+  DB_ADMIN_USER       Your ATP admin username
+  DBPASSWORD          Your ATP admin password
+  DB_DESCRIPTOR       <dbname_tp> + _tp (e.g. cndokeDB_tp)
   ```
 
   ![](images/400/28.png)
@@ -334,10 +337,13 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
       ![](images/400/34.png)
 
-- The last environment variable we need to add is the namespace of the Kubernetes. You can find this the kubeconfig file. Namespace is a way to divide cluster resources between multiple users. It is good practice to deploy your application into your own namespace.
+- The third environment variable we need to add is the namespace of the Kubernetes. You can find this the **kubeconfig** file. Namespace is a way to divide cluster resources between multiple users. It is good practice to deploy your application into your own namespace.
 
   - In your Wercker browser tab, add a new environment variable with the key **NS**. In the value field, enter `cndoke` as the value or a value of your choice such as your name. When finished, click **Add**.
 
+- And finally to connect to our ATP database we will need to pass the database username, password and the database descriptor.
+
+  - The `DB_DESCRIPTOR` must be made up of your `<dbname>` + `_tp` suffix. e.g. `cndokeDB_tp`
 
 
 ### **STEP 9**: Define Wercker Deployment Pipeline
@@ -348,7 +354,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
     ![](images/400/35.png)
 
-- **Copy** the YAML below and **paste** it below the pipelines we defined earlier.
+- **Copy** the YAML below and **paste** it below the **build** pipeline we defined earlier.
 
   ```yaml
   deploy:
@@ -391,15 +397,23 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
   ```
 
 
-  >This will define a new **Pipeline** called deploy-to-cluster. The pipeline will make use of a new type of step: **kubectl**. If you have used Kubernetes before, you will be familiar with kubectl, the standard command line interface for managing Kubernetes. The kubectl Wercker step can be used to execute Kubernetes commands from within a Pipeline.
+  >This will define a new Pipeline called **deploy**. The pipeline will make use of a new type of step: **kubectl**. If you have used Kubernetes before, you will be familiar with kubectl, the standard command line interface for managing Kubernetes. The kubectl Wercker step can be used to execute Kubernetes commands from within a Pipeline.
 
-    >The **deploy** Pipeline will prepare our kubernetes.yml file by filling in some environment variables. It will then use kubectl to tell Kubernetes to apply that configuration to our cluster.
+  >The **deploy** Pipeline will prepare our kubernetes.yml file by filling in some environment variables. It will then use **kubectl** to tell Kubernetes to apply that configuration to our cluster.
 
-- At the bottom of the page, click **Commit new file**
+- You should see line 26 to 62 in your **werkcer.yml**
 
-  ![](images/200/29.png)
+  ![](images/400/36.png)
 
-- Since you've committed to the repository again, Wercker will once again trigger an execution of your workflow. We still haven't configured the deployment pipelines in Wercker yet, so we'll still end up with a new Run and a new image, but not a deployment to Kubernetes.
+- At the bottom of the page, click **Commit changes**
+
+  ![](images/400/37.png)
+
+- Since you've committed to the repository again, Wercker will once again trigger an execution of your workflow. So we'll end up with a new Run and a new image, and a deployment to Kubernetes.
+
+- The **deploy** pipeline should be executed and completed without failure.
+
+  ![](images/400/38.png)
 
 
 
