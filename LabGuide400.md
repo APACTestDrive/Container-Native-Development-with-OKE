@@ -416,12 +416,70 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
   ![](images/400/38.png)
 
 
+  ### **STEP 10**: Validate Deployment
+
+  - First we need to validate your deployment to the Kubernetes cluster has been successful.
+
+  - In a terminal window, start the **kubectl proxy** using the following command. Your `KUBECONFIG` environment variable should still be set from a previous step. If not, reset it.
+
+    **Windows**
+  ```bash
+  kubectl.exe proxy
+  ```
+
+     **Mac/Linux**
+  ```bash
+  ./kubectl proxy
+  ```
+
+  - In a browser tab, navigate to the [**Kubernetes dashboard**](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/)
+
+- You should see the overview page. In the left side navigation menu, click the down arrow icon next to the `default` namespace to open the dropdown menu list.
+
+  ![](images/400/39.png)
+
+- Change the namespace to `cndoke`.
+
+  ![](images/400/40.png)
 
 
+- In the **Deployments** section, you should see the `cndoke` deployment has ran successfully. And a `cndoke` pod running under the **Pods** section. The IP address for the pod is an internal IP address and is not accessible externally.
 
+  ![](images/400/41.png)
 
+- To access the application, we need to use a cluster-external IP. Our application will be exposed to the internet via a load balancer. The load balancer will take a few minutes to be instantiated and configured. Let's check on its status. Click **Services** from the left side navigation menu.
 
+  ![](images/400/42.png)
 
+- On the service page, you will see a column called **External endpoints**. Once the load balancer has finished provisioning, the External endpoints column will be populated with a link to the product catalog application. If the link is not shown yet, wait a few minutes, refresh your browser, and check again. Once the link is displayed, click it to launch the site in a new tab.
+
+- You should see the CafeSupremo site load successfully, validating that our new Kubernetes deployment and service were created correctly. Let's test the CafeSupremo functionality of the catalog. However, you may have noticed that the page may not have been rendered correctly as the graphics are oversized.
+
+- Since the application is designed for a mobile phone screen, you will need to resize your browser so that the application home page would render in the correct format. You can resize your browser or switch to a mobile phone format under your browser's _Developer Tools_.
+
+  ![](images/400/43.png)
+
+- After you've resized your browser, click on the hamburger icon on the top left hand corner to expose the navigation menu.
+
+  ![](images/400/44.png)
+
+- Explore by clicking on **Discover** and **Stores** options. These should show you the types of coffees available in store and the store locations. However, the **Rewards** and **Logout** options are greyed out as these options are available after a successful user login.
+
+- Click on **Welcome** to go back to the home page.
+
+- Click **Sign In** to login.
+
+  ![](images/400/45.png)
+
+- A login dialog box will pop up with the _Username_ pre-filled. Enter `Oracle123` in the password field and click **Submit**.
+
+- You not be able to login and should see the following error message.
+
+  ![](images/400/46.png)
+
+- This is expected as our login feature has not been enabled yet. Also the database has not been populated with customer data.
+
+- We have now verified the correct deployment of our application. We create the customer schema and populate it with data in the next lab. We will also try out our automated CI/CD pipeline by enabling the login function in the next lab.
 
 
 **You are now ready to move to the next lab: [Lab 500](LabGuide500.md)**
