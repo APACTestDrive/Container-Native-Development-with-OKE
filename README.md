@@ -27,3 +27,4 @@ The following labs require an Oracle Public Cloud account. You may use your own 
   - [Lab 200](LabGuide200.md) - Provision an Autonomous Transaction Processing Database
   - [Lab 300](LabGuide300.md) - Downloading a kubeconfig File to Enable Cluster Access
   - [Lab 400](LabGuide400.md) - Containerize Your Node.js Microservice
+  - [Lab 500](LabGuide500.md) - Putting It All Together
