@@ -47,9 +47,9 @@ During this lab we will demonstrate the complete end-to-end of our CI/CD lifecyc
 - You database is now set up with one user record for testing.
 
 
-## Enable Reward Service and Verifying The Execution of Wercker Workflows
+## Enable Login Service and Verify The Execution of Wercker Workflows
 
-### **STEP 2**: Modify configuration file and commit to Github
+### **STEP 2**: Modify configuration file and commit to GitHub
 
 - In a new browser tab, navigate to your forked cndoke repository on GitHub. If you've closed the tab, you can get back by going to GitHub, scrolling down until you see the your repositories box on the right side of the page, and clicking the **cndoke** link.
 
@@ -59,7 +59,7 @@ During this lab we will demonstrate the complete end-to-end of our CI/CD lifecyc
 
   ![](images/500/3.png)
 
-- Type `config` in the search bar, then click on `config.json` to open the file. This is the configuration file for defining the various endpoints, components and default user for the application. The exact detail for the various option is not important right now.
+- Type `config` in the search bar, then click on `config.json` to open the file. This is the configuration file for defining the various endpoints, components and default user for the application. The exact detail for the various options is not important right now.
 
   ![](images/500/4.png)
 
@@ -101,5 +101,40 @@ During this lab we will demonstrate the complete end-to-end of our CI/CD lifecyc
 
   ![](images/500/12.png)
 
+- In a new browser tab, navigate to the Kubernetes dashboard. Select your namespace `cndoke` and click on **Overview** in the left side navigation menu. You should see a new cndoke pod with a very small Age (a few seconds to a few minutes, depending on how much time has elapsed between the end of the Workflow execution and now). If you get to the dashboard very quickly after the Workflow finishes, you may see the old pod from the previous lab being terminated. The old pod will be removed from the UI within a minute of the new pods being started. Or you will see a new cndoke replica with a very small Age.
 
-**You are now ready to move to the next lab: [Lab 500](LabGuide500.md)**
+  ![](images/500/13.png)
+
+
+- This indicates that you have successfully redeployed your new build to the Kubernetes cluster.
+
+
+### **STEP 4**: Validate The Application Functionality
+
+- Still in the Kubernetes dashboard, click Services from the left side navigation menu. Then click the External endpoint URL for the **cndoke** service.
+
+  ![](images/500/14.png)
+
+- The CafeSupremo site will load in a new tab. You will need to resize your browser so that the application home page would render in the correct format. Click on **Sign In** to log into the application.
+
+  ![](images/500/15.png)
+
+- At the login dialog box enter `Oracle123` in the password field and click **Submit**.
+
+  ![](images/500/16.png)
+
+- You should now be able to login and see your Rewards account page. The account will have several free coffee coupons for redemption. Click on the **Credit A Star** button to increment your reward points and watch the point counter increment. This is incrementing your record in the database.
+
+  ![](images/500/17.png)
+
+- You can try redeeming a free coffee. Click on the **Free Coffee** label. This will bring you a QR code for redemption. To simulate the QR code being scanned, click on the **Redeem** button. Again, this will deduct your coupon from the database.
+
+  ![](images/500/18.png)
+
+
+ We've gone from making a code change to having our new version built, and deployed to Kubernetes in just a couple of minutes!
+
+
+
+## Congratulation!
+### You have completed the Container Native Application Development Workshop.
