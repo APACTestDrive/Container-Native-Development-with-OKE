@@ -114,7 +114,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   ![](images/400/14.png)
 
-- We need to define exactly how to build and deploy a file called **wercker.yml**, which we will store in our application's Git repository. We will define our **wercker.yml** in **STEP 7**.
+- However, we need to define exactly how to build and deploy in a file called **wercker.yml**, which we will store in our application's Git repository. We will define our **wercker.yml** in **STEP 7**.
 
 - Before defining the **wercker.yml** we will need to create a Docker Hub registry for our built Docker image to store and specify the Docker Hub registry details as environment variable in Wercker to be passed to our **build** pipeline.
 
@@ -163,11 +163,15 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 - Create an environment variable by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
   ```
-  Key:              Value:
-  DOCKER_USERNAME   Your Docker Hub username
-  DOCKER_PASSWORD   Your Docker Hub password
-  DOCKER_REPO       <your-dockerhub-username>/cndoke
-  DOCKER_REGISTRY   https://registry.hub.docker.com/v2
+  Key:                Value:
+  DOCKER_USERNAME     your Docker Hub username
+  DOCKER_PASSWORD     your Docker Hub password
+  DOCKER_REPO         <your-dockerhub-username>/cndoke
+  DOCKER_REGISTRY     https://registry.hub.docker.com/v2
+  OCIUSEROCID         your OCI user ID
+  OCITENANTOCID       your OCI tenancy ID
+  OCIAPIKEY_PRIVATE   your API private key created in Lab 100
+  OCIAPIKEYFP         your API key fingerprint
   ```
 
   ![](images/400/21.png)
