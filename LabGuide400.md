@@ -163,15 +163,17 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 - Create an environment variable by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
   ```
-  Key:                Value:
-  DOCKER_USERNAME     your Docker Hub username
-  DOCKER_PASSWORD     your Docker Hub password
-  DOCKER_REPO         <your-dockerhub-username>/cndoke
-  DOCKER_REGISTRY     https://registry.hub.docker.com/v2
-  OCIUSEROCID         your OCI user ID
-  OCITENANTOCID       your OCI tenancy ID
-  OCIAPIKEY_PRIVATE   your API private key created in Lab 100
-  OCIAPIKEYFP         your API key fingerprint
+  Key:                  Value:
+  DOCKER_USERNAME       your Docker Hub username
+  DOCKER_PASSWORD       your Docker Hub password
+  DOCKER_REPO           <your-dockerhub-username>/cndoke
+  DOCKER_REGISTRY       https://registry.hub.docker.com/v2
+  OCIUSEROCID           your OCI user ID
+  OCITENANTOCID         your OCI tenancy ID
+  OCIAPIKEY_PRIVATE     your API private key created in Lab 100
+  OCIAPIKEYFP           your API key fingerprint
+  ENDPOINT              your database endpoint (database.us-ashburn-1.oraclecloud.com  or  database.us-phoenix-1.oraclecloud.com)
+  ATPOCID               your ATP instance OCID
   ```
 
   ![](images/400/21.png)
@@ -185,6 +187,10 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
   - The `DOCKER_REPO` must be all lowercase. Enter a repo name of your new repo. e.g. `cndoke`
 
   - The `DOCKER_REGISTRY` value above assumes you are using Docker Hub.
+
+  - The `OCIUSEROCID`, `OCITENANTOCID`, `OCIAPIKEY_PRIVATE`, `OCIAPIKEYFP` are from Lab 300.
+
+  - You can obtain the `ATPOCID` value from your ATP **Demo** instance details page.
 
 
 - This is all of the environment variables that we need to configure at this point. For now, let's finish setting up the **build** pipeline in Wercker so that we can try the build.
