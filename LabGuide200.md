@@ -30,25 +30,22 @@ In this section you will be provisioning an ATP database using the cloud console
 
 Stay on the OCI Console.
 
-- Click on the hamburger menu icon on the top left of the screen
+- Click on the hamburger menu icon on the top left of the screen and then select **Autonomous Transaction Processing** from the list.
 
   ![](./images/200/1.png)
 
--  Click on **Autonomous Transaction Processing** from the menu
-
-  ![](./images/200/2.png)
 
 - Select **Demo** compartment, the one you created previously.
 
-  ![](./images/200/3.png)
+  ![](./images/200/2.png)
 
 -  Click on **Create Autonomous Database** button to start the instance creation process
 
-  ![](./images/200/4.png)
+  ![](./images/200/3.png)
 
 -  This will bring up Create ATP Database screen where you specify the configurations of the instance
 
-  ![](./images/200/5.png)
+  ![](./images/200/4.png)
 
 
 #### Note: Oracle Cloud Infrastructure allows logical isolation of users within a tenant through Compartments. This allows multiple users and business units to share a tenant account while being isolated from each other.
@@ -59,23 +56,23 @@ More information about Compartments and Policies is provided in the OCI Identity
 
 -  Verify Demo compartment is selected
 
+  ![](./images/200/5.png)
+
+-  Specify a name for the instance and display name.
+
   ![](./images/200/6.png)
-
--  Specify a name for the instance
-
-  ![](./images/200/7.png)
 
 - For this lab we are not checking Dedicate Infrastructure
 
 -  You can choose an instance shape, specified by the CPU count and storage size. Default CPU count is 1 and storage is 1 TB.
 
-  ![](./images/200/8.png)
+  ![](./images/200/7.png)
 
 -  Specify the password for the instance
 
 **NOTE**: Please take note of your password as you will require this in later labs.
 
-![](./images/200/9.png)
+![](./images/200/8.png)
 
 - License Type: You will see 2 options under licensing options.
 
@@ -87,22 +84,22 @@ More information about Compartments and Policies is provided in the OCI Identity
 
 - Leave it default to **Bring Your Own License (BYOL)**
 
-  ![](./images/200/10.png)
+  ![](./images/200/9.png)
 
 
 - Make sure you have everything filled all required details
 
 -  Click on **Create Autonomous Autonomous Database** to start provisioning the instance
 
-  ![](./images/200/11.png)
+  ![](./images/200/10.png)
 
 - Once you create ATP Database it would take 2-3 minutes for the instance to be provisioned.
 
-  ![](./images/200/12.png)
+  ![](./images/200/11.png)
 
 -  Once it finishes provisioning, you can click on the instance name to see details of it
 
-  ![](./images/200/13.png)
+  ![](./images/200/12.png)
 
 You now have created your first Autonomous Transaction Processing database instance.
 
