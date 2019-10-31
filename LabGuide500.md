@@ -137,4 +137,6 @@ During this lab we will demonstrate the complete end-to-end of our CI/CD lifecyc
 
 
 ## Congratulation!
-### You have completed the Container Native Application Development Workshop.
+### You have completed the Container Native Development with OKE Workshop.
+
+**Return to home page [Home](README.md)**
