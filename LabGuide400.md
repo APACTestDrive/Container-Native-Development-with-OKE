@@ -110,7 +110,11 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   ![](images/400/13.png)
 
-- Now that we've got a workflow configured, it will build and store a Docker image containing our application. We need to define exactly how to do that in a file called **wercker.yml**, which we will store in our application's Git repository. We will define our **wercker.yml** in **STEP 7**.
+- Now that we've got a workflow configured, it will build and store a Docker image containing our application.
+
+  ![](images/400/14.png)
+
+- We need to define exactly how to build and deploy a file called **wercker.yml**, which we will store in our application's Git repository. We will define our **wercker.yml** in **STEP 7**.
 
 - Before defining the **wercker.yml** we will need to create a Docker Hub registry for our built Docker image to store and specify the Docker Hub registry details as environment variable in Wercker to be passed to our **build** pipeline.
 
@@ -124,11 +128,11 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - Click **Sign Up fo Docker Hub**
 
-  ![](images/400/14.png)
+  ![](images/400/15.png)
 
 - Complete your Docker Identification
 
-  ![](images/400/15.png)
+  ![](images/400/16.png)
 
 
 
@@ -139,12 +143,12 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - Click on **Create** Repository.
 
-  ![](images/400/16.png)
+  ![](images/400/17.png)
 
 - In the **Name** field, enter `cndoke`. Optionally add descriptions and click **Create**.
 
-  ![](images/400/17.png)
   ![](images/400/18.png)
+  ![](images/400/19.png)
 
 - Your repository is now ready for Wercker to push a Docker image into during the **build** pipeline. Let's configure the environment variables to pass these Docker detail to the **build** pipeline.
 
@@ -154,7 +158,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - In your Wercker browser tab, click the **Environment** tab.
 
-  ![](images/400/19.png)
+  ![](images/400/20.png)
 
 - Create an environment variable by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
@@ -166,7 +170,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
   DOCKER_REGISTRY   https://registry.hub.docker.com/v2
   ```
 
-  ![](images/400/20.png)
+  ![](images/400/21.png)
 
   **NOTE**:
 
@@ -188,11 +192,11 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - Switch back to your GitHub browser tab, showing your forked copy of the **cndoke** repository, and click **Create new file**
 
-  ![](images/400/21.png)
+  ![](images/400/22.png)
 
 - In the **Name your file...** input field, type `wercker.yml`
 
-  ![](images/400/22.png)
+  ![](images/400/23.png)
 
 - In the **Edit new file** input box, **paste** the following:
 
@@ -225,7 +229,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - You should have **24 lines** of YAML in the editor:
 
-  ![](images/400/23.png)
+  ![](images/400/24.png)
 
 - Let's look at the two sections of YAML that we've just added.
 
@@ -244,19 +248,19 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - At the bottom of the page, click the **Commit new file** button.
 
-  ![](images/400/24.png)
+  ![](images/400/25.png)
 
 - Switch back to your **Wercker** browser tab and click on the **Runs** tab. If you are quick enough, you will see that Wercker has been notified of your new Git commit (via a webhook) and is executing your workflow.
 
-  ![](images/400/25.png)
+  ![](images/400/26.png)
 
 - You should see that the **build** pipeline completes successfully, but the **deploy** pipeline fails. That's what we expected, since we have not yet defined the steps for the **deploy** pipeline in our **wercker.yml** file.
 
-  ![](images/400/26.png)
+  ![](images/400/27.png)
 
 - Click on the green **build** pipeline to drill into the details of each step. Note that you can click on each step to see the console output produced by that step. In our case that output includes things like the results of the build before packaging our application. If any commands produce an error status code, Wercker will abort the workflow and notify you via email.
 
-  ![](images/400/27.png)
+  ![](images/400/28.png)
 
 - Our next step is to define the second part of our workflow, the **deploy** pipeline, which will pull from our container image in a Docker Hub repository after a successful build.
 
@@ -268,7 +272,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - In your Wercker browser tab, click the **Environment** tab.
 
-  ![](images/400/19.png)
+  ![](images/400/20.png)
 
 - Create an environment variable at the end of the list by filling in the **Key** and **Value** boxes and clicking **Add**. _Be sure to click **Add**_ after each environment variable, or they will not be saved. Repeat this step for each variable listed below.
 
@@ -282,7 +286,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
   DB_DESCRIPTOR       <dbname_tp> + _tp (e.g. cndokeDB_tp)
   ```
 
-  ![](images/400/28.png)
+  ![](images/400/29.png)
 
 
 - Our first step is to set our cluster's authentication token as a Wercker environment variable. In your **terminal window**, run the following commands to output the token, then **select it and copy it** to your clipboard:
@@ -295,7 +299,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
     - Find the `token:` section at the bottom of the file, and copy the token value from there.
 
-    ![](images/400/29.png)
+    ![](images/400/30.png)
 
   **Mac/Linux**
     ```bash
@@ -303,12 +307,12 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
     cat kubeconfig | grep token | awk '{print $2}'
     ```
 
-    ![](images/400/30.png)
+    ![](images/400/31.png)
 
 
 - Back in your Wercker browser tab, click the **Environment** tab. In the key field of the empty row below the last environment variable, enter the key **KUBERNETES_AUTH_TOKEN**. In the value field, **paste** the token we just copied. Check the **Protected** box and click **Add**.
 
-    ![](images/400/31.png)
+    ![](images/400/32.png)
 
 - The next environment variable we need to add is the address of the Kubernetes master we want to deploy to. You can find this the **kubeconfig** file.
 
@@ -316,7 +320,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   - Locate the line with `server`, then **Copy and Paste** the `server` string from your **kubeconfig** file:
 
-    ![](images/400/32.png)
+    ![](images/400/33.png)
 
 
 - Alternative, for Mac and Linux users, we can get the `server` URL from `kubectl`. Run the following command in your **terminal window** to output the URL, then **select it and copy it** to your clipboard:
@@ -331,11 +335,11 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   - In your Wercker browser tab, add a new environment variable with the key **KUBERNETES_MASTER**. In the value field, **paste** the value you copied from `kubectl`. The value **must start with https://** for Wercker to communicate with the cluster. When finished, click **Add**.
 
-    ![](images/400/33.png)
+    ![](images/400/34.png)
 
     **NOTE**: You can also find this address in the OCI Console OKE page, by clicking on your cluster name to view the detail page:
 
-      ![](images/400/34.png)
+      ![](images/400/35.png)
 
 - The third environment variable we need to add is the namespace of the Kubernetes. You can find this the **kubeconfig** file. Namespace is a way to divide cluster resources between multiple users. It is good practice to deploy your application into your own namespace.
 
@@ -352,7 +356,7 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - Click the file **wercker.yml** and then click the **pencil** button to begin editing the file.
 
-    ![](images/400/35.png)
+    ![](images/400/36.png)
 
 - **Copy** the YAML below and **paste** it below the **build** pipeline we defined earlier.
 
@@ -403,17 +407,17 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - You should see line 26 to 62 in your **werkcer.yml**
 
-  ![](images/400/36.png)
+  ![](images/400/37.png)
 
 - At the bottom of the page, click **Commit changes**
 
-  ![](images/400/37.png)
+  ![](images/400/38.png)
 
 - Since you've committed to the repository again, Wercker will once again trigger an execution of your workflow. So we'll end up with a new Run and a new image, and a deployment to Kubernetes.
 
 - The **deploy** pipeline should be executed and completed without failure.
 
-  ![](images/400/38.png)
+  ![](images/400/39.png)
 
 
   ### **STEP 10**: Validate Deployment
@@ -436,20 +440,20 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - You should see the overview page. In the left side navigation menu, click the down arrow icon next to the `default` namespace to open the dropdown menu list.
 
-  ![](images/400/39.png)
+  ![](images/400/40.png)
 
 - Change the namespace to `cndoke`.
 
-  ![](images/400/40.png)
+  ![](images/400/41.png)
 
 
 - In the **Deployments** section, you should see the `cndoke` deployment has ran successfully. And a `cndoke` pod running under the **Pods** section. The IP address for the pod is an internal IP address and is not accessible externally.
 
-  ![](images/400/41.png)
+  ![](images/400/42.png)
 
 - To access the application, we need to use a cluster-external IP. Our application will be exposed to the internet via a load balancer. The load balancer will take a few minutes to be instantiated and configured. Let's check on its status. Click **Services** from the left side navigation menu.
 
-  ![](images/400/42.png)
+  ![](images/400/43.png)
 
 - On the service page, you will see a column called **External endpoints**. Once the load balancer has finished provisioning, the External endpoints column will be populated with a link to the CafeSupremo application. If the link is not shown yet, wait a few minutes, refresh your browser, and check again. Once the link is displayed, click it to launch the site in a new tab.
 
@@ -457,11 +461,11 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - Since the application is designed for a mobile phone screen, you will need to resize your browser so that the application home page would render in the correct format. You can resize your browser or switch to a mobile phone format under your browser's _Developer Tools_.
 
-  ![](images/400/43.png)
+  ![](images/400/44.png)
 
 - After you've resized your browser, click on the hamburger icon on the top left hand corner to expose the navigation menu.
 
-  ![](images/400/44.png)
+  ![](images/400/45.png)
 
 - Explore by clicking on **Discover** and **Stores** options. These should show you the types of coffees available in store and the store locations. However, the **Rewards** and **Logout** options are greyed out as these options are available after a successful user login.
 
@@ -469,13 +473,13 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
 - Click **Sign In** to login.
 
-  ![](images/400/45.png)
+  ![](images/400/46.png)
 
 - A login dialog box will pop up with the _Username_ pre-filled. Enter `Oracle123` in the password field and click **Submit**.
 
 - You would not be able to login and should see the following error message.
 
-  ![](images/400/46.png)
+  ![](images/400/47.png)
 
 - This is expected as our login feature has not been enabled yet. Also the database has not been populated with customer data.
 

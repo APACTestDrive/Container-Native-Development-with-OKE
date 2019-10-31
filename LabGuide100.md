@@ -101,6 +101,7 @@ Compartments are used to isolate resources within your OCI tenant. Role-based ac
 
     ![](images/100/13.png)
     ![](images/100/14.png)
+    ![](images/100/15.png)
 
     - Starting at the top you'll notice that the cluster will be created in our **Demo** compartment.
     - We can customize the name of this cluster if we want
@@ -152,8 +153,8 @@ Alternatively if you're using Windows or you have difficulty in installing **ope
 
 - Navigate to the [Online RSA Key Generator](http://keys.orcl.app) tool. You will be presented with the private and public key pair.
 
-    ![](images/100/15.png)
     ![](images/100/16.png)
+    ![](images/100/17.png)
 
 - Copy the keys and paste them into their respective files
 
@@ -169,19 +170,19 @@ Alternatively if you're using Windows or you have difficulty in installing **ope
 
   - In the Console, click on the **Profile** icon on the right hand corner and then select _your username_. The user details page is now shown.
 
-  ![](images/100/17.png)
+  ![](images/100/18.png)
 
   - Click **Add Public Key**
 
-  ![](images/100/18.png)
+  ![](images/100/19.png)
 
   - Paste the contents of the PEM public key in the dialog box and click **Add**
 
-  ![](images/100/19.png)
+  ![](images/100/20.png)
 
   You should see something similar to below with the key's fingerprint under the API Keys.
 
-  ![](images/100/20.png)
+  ![](images/100/21.png)
 
 
 ### **STEP 7**: Verify Your Clusters
@@ -192,5 +193,7 @@ You should verify your cluster has been created successfully before moving on to
 
   - Verify all the computer nodes in your node pool is in the active state.
 
+
+**Sometimes the cluster may take longer than usual to create. You can therefore go to Lab 200 whilst waiting for the cluster creation to complete.
 
 **You are now ready to move to the next lab: [Lab 200](LabGuide200.md)**
