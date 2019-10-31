@@ -288,12 +288,12 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   ```
   Key:                Value:
-  KUBERNETES_MASTER   Your Kubernetes master node
-  KUBERNETES_TOKEN    Your Kubernetes authentication token
-  NS                  Your Kubernetes namespace. (e.g. cndoke)
-  DB_ADMIN_USER       Your ATP admin username
-  DBPASSWORD          Your ATP admin password
-  DB_DESCRIPTOR       <dbname_tp> + _tp (e.g. cndokeDB_tp)
+  KUBERNETES_MASTER   your Kubernetes master node
+  KUBERNETES_TOKEN    your Kubernetes authentication token
+  NS                  your Kubernetes namespace. (e.g. cndoke)
+  DB_ADMIN_USER       your ATP admin username
+  DBPASSWORD          your ATP admin password
+  DB_DESCRIPTOR       <dbname_tp> + _tp (e.g. demo_tp). The descriptor must be in lowercase
   ```
 
   ![](images/400/29.png)
@@ -372,42 +372,42 @@ For this lab you will need a Github and Docker Hub accounts. You should have Git
 
   ```yaml
   deploy:
-  box:
-    id: alpine
-    cmd: /bin/sh
-  steps:
-    - bash-template
+    box:
+      id: alpine
+      cmd: /bin/sh
+    steps:
+      - bash-template
 
-    - kubectl:
-        name: apply namespace
-        server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
-        insecure-skip-tls-verify: true
-        command: apply -f ./ns.yml
-    - kubectl:
-        name: delete OCR secret
-        server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
-        insecure-skip-tls-verify: true
-        command: delete secret wrelease --namespace=$NS --ignore-not-found=true
-    - kubectl:
-        name: create OCR secret
-        server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
-        insecure-skip-tls-verify: true
-        command: create secret docker-registry wrelease --docker-server=$DOCKER_REGISTRY --docker-username=$DOCKER_USERNAME --docker-password="$DOCKER_PASSWORD" --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$NS
-    - kubectl:
-        name: apply deplyoment
-        server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
-        insecure-skip-tls-verify: true
-        command: apply -f ./cndoke-deploy.yml --namespace=$NS
-    - kubectl:
-        name: apply service
-        server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
-        insecure-skip-tls-verify: true
-        command: apply -f ./cndoke-service.yml --namespace=$NS
+      - kubectl:
+          name: apply namespace
+          server: $KUBERNETES_MASTER
+          token: $KUBERNETES_TOKEN
+          insecure-skip-tls-verify: true
+          command: apply -f ./ns.yml
+      - kubectl:
+          name: delete OCR secret
+          server: $KUBERNETES_MASTER
+          token: $KUBERNETES_TOKEN
+          insecure-skip-tls-verify: true
+          command: delete secret wrelease --namespace=$NS --ignore-not-found=true
+      - kubectl:
+          name: create OCR secret
+          server: $KUBERNETES_MASTER
+          token: $KUBERNETES_TOKEN
+          insecure-skip-tls-verify: true
+          command: create secret docker-registry wrelease --docker-server=$DOCKER_REGISTRY --docker-username=$DOCKER_USERNAME --docker-password="$DOCKER_PASSWORD" --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$NS
+      - kubectl:
+          name: apply deplyoment
+          server: $KUBERNETES_MASTER
+          token: $KUBERNETES_TOKEN
+          insecure-skip-tls-verify: true
+          command: apply -f ./cndoke-deploy.yml --namespace=$NS
+      - kubectl:
+          name: apply service
+          server: $KUBERNETES_MASTER
+          token: $KUBERNETES_TOKEN
+          insecure-skip-tls-verify: true
+          command: apply -f ./cndoke-service.yml --namespace=$NS
   ```
 
 
