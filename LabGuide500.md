@@ -127,7 +127,7 @@ During this lab we will demonstrate the complete end-to-end of our CI/CD lifecyc
 
   ![](images/500/17.png)
 
-- You can try redeeming a free coffee. Click on the **Free Coffee** label. This will bring you a QR code for redemption. To simulate the QR code being scanned, click on the **Redeem** button. Again, this will deduct your coupon from the database.
+- You can try redeeming a free coffee. Click on the **Free Coffee** label. This will bring up a QR code for redemption. To simulate the QR code being scanned, click on the **Redeem** button. Again, this will deduct your coupon from the database.
 
   ![](images/500/18.png)
 
