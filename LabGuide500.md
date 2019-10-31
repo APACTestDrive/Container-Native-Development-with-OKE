@@ -42,7 +42,10 @@ During this lab we will demonstrate the complete end-to-end of our CI/CD lifecyc
 
 - Enter **admin** as the username and your password for the ATP instance your created previously. Click **Submit** to execute the API.
 
-  **NOTE**: There will be no confirmation whether the initialisation was a success or failure. Just assume it was a success.
+  **NOTE**: If you get a the following message then your database initialisation was successful.
+
+    `{"message":"Table created with one record"}``
+
 
 - You database is now set up with one user record for testing.
 
